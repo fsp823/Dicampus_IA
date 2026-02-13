@@ -1,6 +1,7 @@
 Calculadora de Números Naturales en Python
-Aplicación de consola escrita en Python que permite realizar operaciones básicas (suma, resta, multiplicación y división) utilizando únicamente números naturales. Incluye un menú repetitivo que facilita la interacción con el usuario hasta que este decide salir.
 
+Aplicación de consola escrita en Python que permite realizar operaciones básicas (suma, resta, multiplicación y división) utilizando únicamente números naturales.
+Incluye un menú repetitivo que facilita la interacción con el usuario hasta que este decide salir.
 
 
 Fernando Sirgado Polo
