@@ -1,0 +1,8 @@
+[
+  "test_calculadora.py::test_dividir",
+  "test_calculadora.py::test_multiplicar",
+  "test_calculadora.py::test_restar",
+  "test_calculadora.py::test_sumar",
+  "test_calculadora_basica_python_v2.py::test_menu_dividir_por_cero",
+  "test_calculadora_basica_python_v2.py::test_menu_suma"
+]

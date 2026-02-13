@@ -1,0 +1,5 @@
+# Created by pytest automatically.
+SRC\calculadora_basica_python.py
+SRC\calculadora_basica_python_v2.py
+TEST\test_calculadora_basica_python_v2
+TEST\test_calculadora.py
