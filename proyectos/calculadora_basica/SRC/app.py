@@ -19,31 +19,35 @@ def pedir_natural(mensaje):
         n = int(input(mensaje))
     return n
 
-while True:
-    print("\n--- Calculadora de números naturales ---")
-    print("1. Sumar")
-    print("2. Restar")
-    print("3. Multiplicar")
-    print("4. Dividir")
-    print("5. Salir")
+def main():
+    while True:
+        print("\n--- Calculadora de números naturales ---")
+        print("1. Sumar")
+        print("2. Restar")
+        print("3. Multiplicar")
+        print("4. Dividir")
+        print("5. Salir")
 
-    opcion = input("Elige una opción: ")
+        opcion = input("Elige una opción: ")
 
-    if opcion == "5":
-        print("Saliendo de la calculadora...")
-        break
+        if opcion == "5":
+            print("Saliendo de la calculadora...")
+            break
 
-    if opcion in ("1", "2", "3", "4"):
-        a = pedir_natural("Introduce el primer número: ")
-        b = pedir_natural("Introduce el segundo número: ")
+        if opcion in ("1", "2", "3", "4"):
+            a = pedir_natural("Introduce el primer número: ")
+            b = pedir_natural("Introduce el segundo número: ")
 
-        if opcion == "1":
-            print("Resultado:", sumar(a, b))
-        elif opcion == "2":
-            print("Resultado:", restar(a, b))
-        elif opcion == "3":
-            print("Resultado:", multiplicar(a, b))
-        elif opcion == "4":
-            print("Resultado:", dividir(a, b))
-    else:
-        print("Opción no válida.")
+            if opcion == "1":
+                print("Resultado:", sumar(a, b))
+            elif opcion == "2":
+                print("Resultado:", restar(a, b))
+            elif opcion == "3":
+                print("Resultado:", multiplicar(a, b))
+            elif opcion == "4":
+                print("Resultado:", dividir(a, b))
+        else:
+            print("Opción no válida.")
+
+if __name__ == "__main__":
+    main()
