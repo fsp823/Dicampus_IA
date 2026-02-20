@@ -33,13 +33,15 @@ Dicampus_IA\proyectos\reto_modulo_1_biblioteca> python -m pytest
 
 ## Resumen de fallas de seguridad
 
-Riesgo--Severidad--Solución recomendada
-usuario_id = int(input(...)) sin manejo--Medio--Validar con try/except
-Inputs de texto sin validación--Bajo--Sanitizar, limitar longitud
-Mensajes de error demasiado detallados--Bajo-Medio--Generalizar mensajes en producción
-Concurrencia y listas compartidas--Medio-Alto--Bloqueos o DB con transacciones
-Futura persistencia insegura--Medio--Sanitización, escapar caracteres, no usar eval
-Email/ISBN no validados--Bajo--Regex o librerías de validación
+| Riesgo                                    | Severidad  | Solución recomendada                           |
+| ----------------------------------------- | ---------- | ---------------------------------------------- |
+| `usuario_id = int(input(...))` sin manejo | Medio      | Validar con try/except                         |
+| Inputs de texto sin validación            | Bajo       | Sanitizar, limitar longitud                    |
+| Mensajes de error demasiado detallados    | Bajo-Medio | Generalizar mensajes en producción             |
+| Concurrencia y listas compartidas         | Medio-Alto | Bloqueos o DB con transacciones                |
+| Futura persistencia insegura              | Medio      | Sanitización, escapar caracteres, no usar eval |
+| Email/ISBN no validados                   | Bajo       | Regex o librerías de validación                |
+
 
 
 ## Origen del código:
@@ -66,7 +68,9 @@ Tanto el programa biblioteca.py como el programa test_biblioteca.py se realizaro
 ## Reglas personales para utilizar la IA:
 
 -Ser claro, directo y minucioso con los prompts. Cuanto más detallados y den menos lugar a interpretación, mejor.
+
 -Guardar varias versiones del código y no modificar con lo que propone la IA de buenas a primeras. Respaldar, Copiar y Testear.
+
 -Estar atento a que en ocasiones la IA pierde el hilo de la conversación y genera código incompatible con lo anterior.
 
 
