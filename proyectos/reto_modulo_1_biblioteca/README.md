@@ -19,17 +19,19 @@ Python 3.10+
 
 ```bash
 Dicampus_IA\proyectos\reto_modulo_1_biblioteca> python -m biblioteca.py 
+```
 
 
 ## Ejecución de Pruebas
+
 ```bash
 Dicampus_IA\proyectos\reto_modulo_1_biblioteca> python -m pytest
+```
 
 
+# Uso de IA en este proyecto:
 
-Uso de IA en este proyecto:
-
-Resumen de fallas de seguridad
+## Resumen de fallas de seguridad
 
 Riesgo--Severidad--Solución recomendada
 usuario_id = int(input(...)) sin manejo--Medio--Validar con try/except
@@ -40,7 +42,7 @@ Futura persistencia insegura--Medio--Sanitización, escapar caracteres, no usar 
 Email/ISBN no validados--Bajo--Regex o librerías de validación
 
 
-Origen del código:
+## Origen del código:
 
 No fue copiado de ningún repositorio ni libro.
 
@@ -61,7 +63,7 @@ El tutorial está escrito por Nawaz Dhandala y el código es Open Source.
 
 Tanto el programa biblioteca.py como el programa test_biblioteca.py se realizaron en un 90% por Chat-GPT y un 10% por el usuario (corrección de directorios, cortar y pegar funciones).
 
-Reglas personales para utilizar la IA:
+## Reglas personales para utilizar la IA:
 
 -Ser claro, directo y minucioso con los prompts. Cuanto más detallados y den menos lugar a interpretación, mejor.
 -Guardar varias versiones del código y no modificar con lo que propone la IA de buenas a primeras. Respaldar, Copiar y Testear.
