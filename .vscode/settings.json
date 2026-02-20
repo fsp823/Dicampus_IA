@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./proyectos/calculadora_basica/SRC"
+    ]
+}

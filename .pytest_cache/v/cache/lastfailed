@@ -2,5 +2,8 @@
   "test_calculadora.py": true,
   "test_calculadora_basica_python.py": true,
   "test_calculadora_basica_python_v2.py::test_menu_suma": true,
-  "test_calculadora_basica_python_v2.py::test_menu_dividir_por_cero": true
+  "test_calculadora_basica_python_v2.py::test_menu_dividir_por_cero": true,
+  "proyectos/calculadora_basica/test/test_app.py": true,
+  "proyectos/calculadora_basica/test/test_calculadora.py": true,
+  "proyectos/calculadora_basica/test/test_calculadora_basica_python_v2.py": true
 }

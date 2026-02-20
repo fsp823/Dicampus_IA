@@ -778,3 +778,5 @@ Tareas que haría con IA:
 
 -Crear un chatbot que ayude al bibliotecario:
 Ej.: “¿Qué libros están vencidos?” o “Registrar un nuevo usuario”.
+
+![Diagrama resumen de conversación](docs/img/resumen_conversacion.png)

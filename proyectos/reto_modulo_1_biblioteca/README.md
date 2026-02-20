@@ -11,10 +11,14 @@ Proyecto demo desarrollado en Python para gestionar:
 
 Python 3.10+
 
-## Instalación
+## Diagrama de Flujo del funcionamiento del programa
+
+![Diagrama de flujo del funcionamiento del programa](docs/img/diagrama.png)
+
+## Ejecución
 
 ```bash
-pip install -r requirements.txt
+Dicampus_IA\proyectos\reto_modulo_1_biblioteca> python -m biblioteca.py 
 
 
 ## Ejecución de Pruebas
@@ -26,13 +30,14 @@ Dicampus_IA\proyectos\reto_modulo_1_biblioteca> python -m pytest
 Uso de IA en este proyecto:
 
 Resumen de fallas de seguridad
-Riesgo	Severidad	Solución recomendada
-usuario_id = int(input(...)) sin manejo	Medio	Validar con try/except
-Inputs de texto sin validación	Bajo	Sanitizar, limitar longitud
-Mensajes de error demasiado detallados	Bajo-Medio	Generalizar mensajes en producción
-Concurrencia y listas compartidas	Medio-Alto	Bloqueos o DB con transacciones
-Futura persistencia insegura	Medio	Sanitización, escapar caracteres, no usar eval
-Email/ISBN no validados	Bajo	Regex o librerías de validación
+
+Riesgo--Severidad--Solución recomendada
+usuario_id = int(input(...)) sin manejo--Medio--Validar con try/except
+Inputs de texto sin validación--Bajo--Sanitizar, limitar longitud
+Mensajes de error demasiado detallados--Bajo-Medio--Generalizar mensajes en producción
+Concurrencia y listas compartidas--Medio-Alto--Bloqueos o DB con transacciones
+Futura persistencia insegura--Medio--Sanitización, escapar caracteres, no usar eval
+Email/ISBN no validados--Bajo--Regex o librerías de validación
 
 
 Origen del código:
