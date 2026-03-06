@@ -1,5 +1,6 @@
 {
     "python.analysis.extraPaths": [
-        "./proyectos/calculadora_basica/SRC"
+        "./proyectos/calculadora_basica/SRC",
+        "./proyectos/ejercicio_funciones/validar_email/src"
     ]
 }
