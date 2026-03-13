@@ -1,0 +1,8 @@
+src.tip_cli.py
+src.tip_cli_v2.py
+src-tip_gui.py
+
+test.test_manual_unittest.py
+test.test_manual.py
+test-test_manual_v2.py
+
