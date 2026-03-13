@@ -1,3 +1,10 @@
+# test/test_manual.py
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]  # sube desde test/ a la raíz del proyecto
+sys.path.insert(0, str(ROOT))
+
 # test_manual.py
 from src.tip_cli import calcular_propina
 
