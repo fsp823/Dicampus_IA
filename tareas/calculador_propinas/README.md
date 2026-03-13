@@ -30,7 +30,16 @@ Si Tkinter no está disponible:
 Linux (ejemplo Ubuntu/Debian):
 
 sudo apt-get install python3-tk
-3. Funcionamiento del Programa
+
+
+3. Ejecución
+
+En el directorio raiz ejecutar:
+
+python src/tip_gui_v3.py
+
+
+4. Funcionamiento del Programa
 
 El programa realiza los siguientes pasos:
 
