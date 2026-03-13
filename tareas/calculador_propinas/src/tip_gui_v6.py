@@ -126,3 +126,85 @@ actualizar()
 
 if __name__ == "__main__":
     root.mainloop()
+
+"""
+Interfaz gráfica para la calculadora de propinas.
+
+Proporciona una ventana Tkinter que permite introducir el importe de la factura,
+elegir entre aplicar un porcentaje o un monto fijo de propina, indicar el número
+de personas para dividir el total y ver los resultados formateados según la
+configuración regional del sistema.
+
+La GUI delega la lógica de cálculo y el formateo de moneda en las funciones
+exportadas por `src.tip_cli` (por ejemplo `calcular_propina` y `format_currency_local`).
+Captura y muestra errores de validación devueltos por dichas funciones.
+
+Parameters
+----------
+None
+    Este módulo define una aplicación de escritorio; no expone una API con
+    parámetros posicionales. Las entradas se leen desde widgets Tkinter:
+    - `bill_var` : StringVar con el importe de la factura.
+    - `pct_var` : StringVar con el porcentaje de propina.
+    - `fixed_var` : StringVar con el monto fijo de propina.
+    - `people_var` : StringVar con el número de personas.
+    - `mode_var` : StringVar que indica el modo ('pct' o 'fixed').
+
+Functions
+---------
+actualizar(*args)
+    Lee los valores de los widgets, llama a `calcular_propina` y actualiza las
+    variables de resultado (`tip_var`, `total_var`, `per_var`). Maneja
+    `ValueError` para mostrar mensajes de error al usuario.
+reset()
+    Restaura los valores por defecto en los campos de entrada y fuerza una
+    actualización de la vista.
+
+Returns
+-------
+None
+    Ejecutar el módulo como script arranca el bucle principal de Tkinter
+    (`root.mainloop()`), por lo que la función principal no devuelve valor.
+
+Raises
+------
+ValueError
+    Puede propagarse desde `calcular_propina` si las entradas no son válidas.
+Exception
+    Errores inesperados en la UI se capturan y se muestran como mensaje de error,
+    pero no se relanzan al usuario final.
+
+Examples
+--------
+Ejecutar la aplicación desde la raíz del proyecto:
+
+>>> python tip_gui.py
+
+Uso típico desde la interfaz:
+- Introducir "100" en Valor de la factura.
+- Seleccionar "Porcentaje" y dejar 10 en Porcentaje (%) → pulsar Calcular.
+- Ver "Propina", "Total" y "Por persona" formateados según la locale.
+
+Notes
+-----
+- La GUI intenta importar `calcular_propina` y `format_currency_local` desde
+  `src.tip_cli`. Si el import falla, añade la raíz del proyecto a `sys.path`
+  para facilitar el desarrollo local.
+- El formateo de moneda usa `babel` si está disponible; si no, recurre a
+  `locale` y a un fallback seguro.
+- Las entradas aceptan cadenas con coma decimal (por ejemplo "12,34") porque
+  la conversión y validación se realizan en `src.tip_cli`.
+- `locale.setlocale` puede cambiar el locale global del proceso; para evitar
+  efectos en aplicaciones multihilo, instale `Babel` y el formateo no tocará
+  el estado global.
+
+See Also
+--------
+src.tip_cli.calcular_propina : Lógica de cálculo y validación de entradas.
+src.tip_cli.format_currency_local : Formateo de importes según locale.
+
+Todo
+----
+- Añadir atajos de teclado (Enter = Calcular, Esc = Limpiar).
+- Añadir selector manual de moneda además de la detección automática.
+"""

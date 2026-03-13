@@ -12,17 +12,59 @@ def _to_decimal(value, name: str) -> Decimal:
 
 def calcular_propina(bill, porcentaje: float = 10.0, people: int = 1, fixed_tip: Optional[float] = None) -> Tuple[float, float, float]:
     """
-    Calcula la propina, el total y el importe por persona.
+    Calcula la propina, el total y el importe por persona usando redondeo humano.
 
-    Parámetros
-    - bill: importe de la factura (>= 0). Se aceptan números o strings con coma o punto.
-    - porcentaje: porcentaje de propina (>= 0). Se aceptan números o strings con coma o punto.
-    - people: número de personas (entero >= 1). Se aceptan enteros o strings que representen enteros.
-    - fixed_tip: si se proporciona (no None), se usa este monto fijo de propina en la misma moneda
-                 en lugar de calcularla por porcentaje. Se aceptan números o strings.
+    Calcula la propina a partir de un importe de factura y un porcentaje, o bien
+    acepta una **propina fija** si se proporciona `fixed_tip`. Todos los cálculos
+    usan `decimal.Decimal` con `ROUND_HALF_UP` y los resultados se devuelven como
+    `float` redondeados a dos decimales.
 
-    Devuelve (tip, total, per_person) como floats redondeados a 2 decimales.
-    Lanza ValueError con mensajes claros si alguna entrada es inválida.
+    Parameters
+    ----------
+    bill : int | float | str
+        Importe de la factura. Se aceptan números o cadenas con coma o punto
+        decimal (por ejemplo, `"12.34"` o `"12,34"`). Debe ser >= 0.
+    porcentaje : int | float | str, optional
+        Porcentaje de propina a aplicar (por defecto 10.0). Se aceptan números
+        o cadenas con coma/punto. Ignorado si `fixed_tip` no es `None`.
+    people : int | str, optional
+        Número de personas para dividir el total (por defecto 1). Debe ser un
+        entero >= 1; se aceptan cadenas que representen enteros válidos.
+    fixed_tip : int | float | str | None, optional
+        Monto absoluto de propina a usar en lugar del porcentaje. Si se
+        proporciona, debe ser >= 0. Se aceptan números o cadenas con coma/punto.
+
+    Returns
+    -------
+    tip : float
+        Importe de la propina, redondeado a 2 decimales.
+    total : float
+        Suma de la factura más la propina, redondeada a 2 decimales.
+    per_person : float
+        Importe por persona (total dividido entre `people`), redondeado a 2 decimales.
+
+    Raises
+    ------
+    ValueError
+        Si `bill`, `porcentaje` o `fixed_tip` no son numéricos válidos o son
+        negativos; si `people` no es un entero o es menor que 1.
+
+    Examples
+    --------
+    >>> calcular_propina(100, 15, 2)
+    (15.0, 115.0, 57.5)
+    >>> calcular_propina("100,00", "10", "4")
+    (10.0, 110.0, 27.5)
+    >>> calcular_propina(80, fixed_tip="5")
+    (5.0, 85.0, 85.0)
+
+    Notes
+    -----
+    - Internamente se usa `decimal.Decimal` y `ROUND_HALF_UP` para evitar
+      imprecisiones de punto flotante y aplicar el **redondeo humano**.
+    - La función devuelve `float` para mantener compatibilidad con llamadas
+      existentes; si se necesita precisión monetaria persistente, considere
+      trabajar con `Decimal` en la capa superior.
     """
     bill_d = _to_decimal(bill, "Factura")
     if bill_d < 0:
