@@ -36,7 +36,7 @@ sudo apt-get install python3-tk
 
 En el directorio raiz ejecutar:
 
-python src/tip_gui_v4.py
+python src/tip_gui_v6.py
 
 
 4. Funcionamiento del Programa
@@ -57,7 +57,7 @@ Propina
 
 Total a pagar
 
-4. Fórmula utilizada
+5. Fórmula utilizada
 
 Propina:
 
@@ -104,7 +104,8 @@ Total a pagar:
 𝑛
 𝑎
 total=factura+propina
-5. Interfaz Gráfica
+
+6. Interfaz Gráfica
 
 La interfaz incluye los siguientes componentes:
 
