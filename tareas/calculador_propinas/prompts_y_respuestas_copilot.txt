@@ -1,0 +1,2472 @@
+Hoy
+genera una calculadora de propinas que dé un 10% del valor de la factura con esta estructura de directorios:
+Calculadora de propinas (10%) — Estructura de directorios y código
+Código
+tip-calculator/
+├─ README.md
+├─ index.html
+├─ css/
+│  └─ style.css
+└─ js/
+   └─ app.js
+Qué hace
+Calcula automáticamente el 10% del valor de la factura y muestra el total (factura + propina). Interfaz mínima, accesible y lista para abrir en el navegador.
+
+index.html
+html
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Calculadora de Propinas 10%</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>Calculadora de Propinas</h1>
+
+    <label for="bill">Valor de la factura (€)</label>
+    <input id="bill" type="number" min="0" step="0.01" placeholder="0.00" />
+
+    <div class="results">
+      <div><strong>Propina (10%)</strong>: <span id="tip">0.00 €</span></div>
+      <div><strong>Total</strong>: <span id="total">0.00 €</span></div>
+    </div>
+
+    <button id="reset" class="btn">Limpiar</button>
+  </main>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
+css/style.css
+css
+:root{
+  --bg:#f7f7fb;
+  --card:#ffffff;
+  --accent:#2b7cff;
+  --text:#222;
+  --muted:#666;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;color:var(--text);background:var(--bg)}
+.container{max-width:420px;margin:6vh auto;padding:24px;background:var(--card);border-radius:10px;box-shadow:0 6px 20px rgba(20,20,40,0.06)}
+h1{margin:0 0 18px;font-size:1.25rem}
+label{display:block;margin-bottom:6px;color:var(--muted)}
+input[type="number"]{width:100%;padding:10px 12px;font-size:1rem;border:1px solid #e3e6ee;border-radius:8px;margin-bottom:16px}
+.results{display:flex;flex-direction:column;gap:8px;padding:12px 0;margin-bottom:16px}
+.results div{display:flex;justify-content:space-between;align-items:center;font-size:1rem}
+.btn{display:inline-block;padding:10px 14px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer}
+.btn:active{transform:translateY(1px)}
+js/app.js
+javascript
+document.addEventListener('DOMContentLoaded', () => {
+  const billInput = document.getElementById('bill');
+  const tipEl = document.getElementById('tip');
+  const totalEl = document.getElementById('total');
+  const resetBtn = document.getElementById('reset');
+
+  function formatEUR(value) {
+    return value.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+  }
+
+  function calculate() {
+    const bill = parseFloat(billInput.value);
+    if (isNaN(bill) || bill <= 0) {
+      tipEl.textContent = formatEUR(0);
+      totalEl.textContent = formatEUR(0);
+      return;
+    }
+    const tip = bill * 0.10;
+    const total = bill + tip;
+    tipEl.textContent = formatEUR(tip);
+    totalEl.textContent = formatEUR(total);
+  }
+
+  billInput.addEventListener('input', calculate);
+  resetBtn.addEventListener('click', () => {
+    billInput.value = '';
+    calculate();
+    billInput.focus();
+  });
+
+  calculate();
+});
+README.md (resumen rápido)
+md
+# Calculadora de Propinas 10%
+
+Abrir `index.html` en un navegador. Introduce el valor de la factura y la app mostrará la propina (10%) y el total.
+¿Quieres que añada opciones para elegir otros porcentajes (por ejemplo 5%, 15%, 20%) o que la calculadora permita dividir el total entre varias personas?
+
+hazlo en python, por favor
+Calculadora de propinas en Python
+A continuación tienes dos implementaciones completas en Python: una interfaz de línea de comandos (CLI) mínima que calcula exactamente el 10%, y una interfaz gráfica (Tkinter) con opción para cambiar porcentaje y dividir entre personas. Ambas son listas para copiar/pegar y ejecutar.
+
+Estructura sugerida (opcional)
+Código
+tip-calculator-py/
+├─ README.md
+├─ tip_cli.py
+└─ tip_gui.py
+1) Script CLI — tip_cli.py
+python
+#!/usr/bin/env python3
+"""
+Calculadora de propinas (CLI) — calcula 10% y muestra total.
+Uso: python tip_cli.py
+"""
+
+def calcular_propina(bill: float, porcentaje: float = 10.0) -> tuple:
+    """Devuelve (propina, total). porcentaje en % (por ejemplo 10.0)."""
+    tip = bill * (porcentaje / 100.0)
+    total = bill + tip
+    return tip, total
+
+def formato_eur(value: float) -> str:
+    return f"{value:,.2f} €"
+
+def main():
+    try:
+        entrada = input("Introduce el valor de la factura (€): ").strip().replace(',', '.')
+        bill = float(entrada)
+        if bill < 0:
+            print("El valor de la factura debe ser mayor o igual a 0.")
+            return
+    except ValueError:
+        print("Entrada no válida. Introduce un número, por ejemplo 42.50")
+        return
+
+    porcentaje = 10.0  # fijo al 10%
+    tip, total = calcular_propina(bill, porcentaje)
+
+    print(f"Propina ({porcentaje:.0f}%): {formato_eur(tip)}")
+    print(f"Total: {formato_eur(total)}")
+
+if __name__ == "__main__":
+    main()
+Cómo usar
+
+Guardar como tip_cli.py.
+
+Ejecutar en terminal: python tip_cli.py.
+
+Introducir el importe cuando se solicite; el script mostrará la propina (10%) y el total.
+
+2) Aplicación gráfica simple — tip_gui.py
+python
+#!/usr/bin/env python3
+"""
+Calculadora de propinas (GUI con Tkinter).
+Permite cambiar porcentaje y dividir entre personas.
+"""
+
+import tkinter as tk
+from tkinter import ttk
+
+def formato_eur(value: float) -> str:
+    return f"{value:,.2f} €"
+
+def calcular():
+    try:
+        bill = float(bill_var.get().replace(',', '.'))
+    except ValueError:
+        bill = 0.0
+    try:
+        pct = float(pct_var.get().replace(',', '.'))
+    except ValueError:
+        pct = 10.0
+    try:
+        people = int(people_var.get())
+        if people < 1:
+            people = 1
+    except ValueError:
+        people = 1
+
+    tip = bill * (pct / 100.0)
+    total = bill + tip
+    per_person = total / people
+
+    tip_label_var.set(formato_eur(tip))
+    total_label_var.set(formato_eur(total))
+    per_label_var.set(formato_eur(per_person))
+
+root = tk.Tk()
+root.title("Calculadora de Propinas 10%")
+
+frm = ttk.Frame(root, padding=16)
+frm.grid()
+
+ttk.Label(frm, text="Valor de la factura (€)").grid(column=0, row=0, sticky="w")
+bill_var = tk.StringVar(value="0.00")
+ttk.Entry(frm, textvariable=bill_var, width=20).grid(column=0, row=1, pady=6)
+
+ttk.Label(frm, text="Porcentaje (%)").grid(column=0, row=2, sticky="w")
+pct_var = tk.StringVar(value="10")
+ttk.Entry(frm, textvariable=pct_var, width=20).grid(column=0, row=3, pady=6)
+
+ttk.Label(frm, text="Dividir entre (personas)").grid(column=0, row=4, sticky="w")
+people_var = tk.StringVar(value="1")
+ttk.Entry(frm, textvariable=people_var, width=20).grid(column=0, row=5, pady=6)
+
+calc_btn = ttk.Button(frm, text="Calcular", command=calcular)
+calc_btn.grid(column=0, row=6, pady=10)
+
+tip_label_var = tk.StringVar(value="0.00 €")
+total_label_var = tk.StringVar(value="0.00 €")
+per_label_var = tk.StringVar(value="0.00 €")
+
+ttk.Label(frm, text="Propina:").grid(column=0, row=7, sticky="w")
+ttk.Label(frm, textvariable=tip_label_var).grid(column=0, row=8, sticky="e")
+
+ttk.Label(frm, text="Total:").grid(column=0, row=9, sticky="w")
+ttk.Label(frm, textvariable=total_label_var).grid(column=0, row=10, sticky="e")
+
+ttk.Label(frm, text="Por persona:").grid(column=0, row=11, sticky="w")
+ttk.Label(frm, textvariable=per_label_var).grid(column=0, row=12, sticky="e")
+
+root.mainloop()
+Cómo usar
+
+Guardar como tip_gui.py.
+
+Ejecutar: python tip_gui.py.
+
+Interfaz sencilla: introduce factura, porcentaje (por defecto 10) y número de personas; pulsa Calcular.
+
+Consideraciones y mejoras posibles
+Formato local: los ejemplos usan f"{value:,.2f} €" para formatear; si quieres formato local (separador de miles y decimales según España), puedo añadir locale para ajustarlo.
+
+Validaciones: ya hay comprobaciones básicas; puedo añadir mensajes de error más visibles en la GUI.
+
+Exportar o empaquetar: puedo explicar cómo convertir el script en un ejecutable (pyinstaller) si lo necesitas.
+
+¿Prefieres que adapte alguno de los dos ejemplos para que calcule automáticamente al escribir (sin pulsar botón) o que lo empaquete como ejecutable para Windows/macOS?
+
+¿cómo pruebo manualmente una función en python?
+Maneras sencillas de probar manualmente una función en Python
+1) Prueba interactiva en REPL (Python shell)
+Abre una terminal y escribe python o python3 para entrar al intérprete interactivo.
+
+Importa tu función o pega su definición y llámala con distintos valores para ver el resultado inmediato.
+
+Ejemplo
+
+python
+>>> from tip_cli import calcular_propina
+>>> calcular_propina(50.0, 10.0)
+(5.0, 55.0)
+Esto te permite inspeccionar valores, probar casos límite y experimentar en tiempo real. 
+
+2) Script de comprobación con assert (rápido y reproducible)
+Crea un pequeño archivo test_manual.py con llamadas assert que verifiquen resultados esperados; ejecútalo manualmente.
+
+python
+# test_manual.py
+from tip_cli import calcular_propina
+
+# casos de prueba
+assert calcular_propina(0.0, 10.0) == (0.0, 0.0)
+assert calcular_propina(100.0, 10.0) == (10.0, 110.0)
+assert calcular_propina(42.5, 10.0) == (4.25, 46.75)
+
+print("Todos los asserts pasaron.")
+Ejecuta python test_manual.py. Si no hay salida de error verás el mensaje final; si falla un assert, Python mostrará la excepción y la línea problemática. Esta técnica es simple y efectiva para pruebas manuales rápidas. 
+
+3) Prueba con doctest dentro de la docstring
+Incluye ejemplos en la docstring de la función y ejecútalos con python -m doctest -v archivo.py para comprobar que la salida coincide con la mostrada.
+
+python
+def calcular_propina(bill: float, porcentaje: float = 10.0) -> tuple:
+    """
+    Devuelve (propina, total).
+
+    >>> calcular_propina(50, 10)
+    (5.0, 55.0)
+    >>> calcular_propina(0, 10)
+    (0.0, 0.0)
+    """
+    tip = bill * (porcentaje / 100.0)
+    total = bill + tip
+    return tip, total
+python -m doctest -v tip_cli.py mostrará qué ejemplos pasan o fallan. Útil para documentación ejecutable. 
+
+4) Prueba en un script con salida legible (print)
+Para inspección humana, escribe un script que imprima entradas y salidas esperadas; es la forma más manual y clara para validar comportamiento.
+
+python
+# manual_run.py
+from tip_cli import calcular_propina
+
+for bill in [0, 10, 47.3, 100]:
+    tip, total = calcular_propina(bill)
+    print(f"Factura: {bill:.2f} € -> Propina: {tip:.2f} €, Total: {total:.2f} €")
+Ejecuta python manual_run.py y revisa visualmente los resultados. 
+
+5) Usar if __name__ == "__main__" para pruebas rápidas al ejecutar el módulo
+Añade un bloque de prueba al final del archivo de la función; así puedes ejecutar el módulo directamente para comprobar comportamiento.
+
+python
+if __name__ == "__main__":
+    print(calcular_propina(50))
+    # más llamadas de ejemplo...
+Ejecuta python tip_cli.py para ver las pruebas. Esta técnica mantiene las pruebas junto al código sin interferir cuando el módulo se importa. 
+
+Buenas prácticas y qué probar manualmente
+Casos normales — valores típicos (ej. 10, 50, 100).
+
+Casos límite — 0, números muy grandes, valores negativos si aplican.
+
+Entradas inválidas — cadenas, None, formatos con coma; observa si la función lanza excepciones manejables.
+
+Precisión — comprueba redondeos y formatos monetarios.
+Estas ideas ayudan a detectar errores antes de automatizar pruebas. 
+
+Siguiente paso práctico
+Si quieres, preparo un archivo de prueba test_manual.py listo para ejecutar con los casos más relevantes para tu función calcular_propina (incluye asserts y ejemplos doctest). ¿Lo genero con los casos que te interesan (por ejemplo: 0, 1.23, 1000, entrada inválida)?
+
+no me es posible ejecutar las pruebas, me sale ese error: Traceback (most recent call last):
+  File "c:\Users\IA\Documents\GitHub\Dicampus_IA\tareas\calculador_propinas\test\test_manual.py", line 2, in <module>
+    from src.tip_cli import calcular_propina
+ModuleNotFoundError: No module named 'src'
+Causa del error
+El mensaje ModuleNotFoundError: No module named 'src' indica que Python no encuentra un paquete o módulo llamado src en su ruta de búsqueda de módulos (sys.path). Eso suele ocurrir por una de estas razones:
+
+Estás ejecutando el test desde una carpeta distinta a la raíz del proyecto.
+
+La carpeta src no está en PYTHONPATH ni es un paquete instalable.
+
+El import en el test asume una estructura distinta a la real.
+
+A continuación tienes varias soluciones prácticas (ordenadas de más simples a más robustas), con comandos concretos para Windows y fragmentos de código que puedes pegar en tu test si prefieres no cambiar la estructura.
+
+1) Ejecutar el test desde la raíz del proyecto
+Sitúate en la carpeta raíz del proyecto (la que contiene src/ y test/) y ejecuta el test con python -m o pytest.
+
+PowerShell / CMD
+
+powershell
+cd C:\Users\IA\Documents\GitHub\Dicampus_IA\tareas\calculador_propinas
+python -m pytest test\test_manual.py
+o, si no usas pytest:
+
+powershell
+python test\test_manual.py
+Si el test hace from src.tip_cli import calcular_propina y src/tip_cli.py existe, ejecutarlo desde la raíz suele resolverlo.
+
+2) Añadir src al PYTHONPATH temporalmente (Windows)
+Si prefieres no moverte de carpeta, exporta PYTHONPATH para que Python busque en src.
+
+PowerShell
+
+powershell
+$env:PYTHONPATH = "C:\Users\IA\Documents\GitHub\Dicampus_IA\tareas\calculador_propinas"
+python test\test_manual.py
+CMD
+
+cmd
+set PYTHONPATH=C:\Users\IA\Documents\GitHub\Dicampus_IA\tareas\calculador_propinas
+python test\test_manual.py
+3) Hacer src importable desde el propio test (solución rápida dentro del archivo)
+Al inicio de test_manual.py añade estas líneas para insertar la carpeta raíz en sys.path antes del import:
+
+python
+# test/test_manual.py
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]  # sube desde test/ a la raíz del proyecto
+sys.path.insert(0, str(ROOT))
+
+from src.tip_cli import calcular_propina
+# resto de pruebas...
+Esto es útil para pruebas rápidas y evita tocar variables de entorno.
+
+4) Convertir src en paquete instalable (mejor práctica para proyectos)
+Crea un pyproject.toml o setup.cfg y luego instala el paquete en modo editable. Así los imports funcionan igual en cualquier entorno.
+
+Ejemplo mínimo con pyproject.toml (poetry o setuptools):
+
+toml
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+Luego, desde la raíz:
+
+powershell
+pip install -e .
+python -m pytest
+Esto es recomendable si vas a trabajar con el proyecto a largo plazo.
+
+5) Alternativa: cambiar el import en el test según la estructura real
+Si tip_cli.py está directamente en la raíz (no dentro de src/), modifica el import:
+
+python
+from tip_cli import calcular_propina
+Asegúrate de ejecutar el test desde la carpeta que contiene tip_cli.py.
+
+Ejemplo de test_manual.py completo (robusto y portátil)
+python
+# test/test_manual.py
+import sys
+from pathlib import Path
+
+# Añade la raíz del proyecto al path para que 'src' sea importable
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from src.tip_cli import calcular_propina
+
+def test_calcular_propina_basica():
+    assert calcular_propina(100.0, 10.0) == (10.0, 110.0)
+
+if __name__ == "__main__":
+    test_calcular_propina_basica()
+    print("Prueba manual pasada.")
+Ejecuta:
+
+powershell
+python test\test_manual.py
+Diagnóstico rápido: pasos para comprobar ahora mismo
+Desde tu terminal, ve a la raíz del proyecto:
+cd C:\Users\IA\Documents\GitHub\Dicampus_IA\tareas\calculador_propinas
+
+Lista archivos para confirmar estructura:
+dir (Windows) — verifica que exista src\tip_cli.py y test\test_manual.py.
+
+Ejecuta:
+python -m pytest  (si tienes pytest) o python test\test_manual.py.
+
+Si falla, copia aquí el tree o la salida de dir y el contenido de la primera línea de test_manual.py (los imports) y lo reviso.
+
+¿Quieres que te prepare un test_manual.py listo para pegar que use la solución 3 (añadir sys.path) para que puedas ejecutarlo ya mismo?
+
+no, ahora en las puebas valida: -que todos los montos sean positivos. -validar que número de personas sea entero positivo. -manejar errores con try-except.
+Prueba manual robusta en test_manual.py
+A continuación tienes un archivo de pruebas que valida que los montos sean positivos, que el número de personas sea un entero positivo y muestra cómo manejar errores con try/except. Incluye compatibilidad para ejecutarlo con pytest o directamente con python test_manual.py.
+
+python
+# test/test_manual.py
+import sys
+from pathlib import Path
+import math
+
+# Hace importable la carpeta raíz del proyecto (para que 'src' funcione)
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from src.tip_cli import calcular_propina  # asume src/tip_cli.py existe
+
+def safe_calculate(bill, porcentaje=10.0, people=1):
+    """
+    Valida entradas y llama a calcular_propina.
+    - bill: número >= 0
+    - porcentaje: número (se permite 0)
+    - people: entero >= 1
+    Devuelve (tip, total, per_person) o lanza ValueError.
+    """
+    # Validaciones
+    try:
+        # convertir y comprobar bill
+        bill_f = float(str(bill).replace(',', '.'))
+    except Exception as e:
+        raise ValueError("Factura no es un número válido") from e
+    if bill_f < 0:
+        raise ValueError("La factura debe ser un número positivo o cero")
+
+    # porcentaje: convertir a float
+    try:
+        pct_f = float(str(porcentaje).replace(',', '.'))
+    except Exception as e:
+        raise ValueError("Porcentaje no es un número válido") from e
+
+    # people: debe ser entero positivo
+    try:
+        # aceptar strings que representen enteros
+        people_i = int(people)
+    except Exception as e:
+        raise ValueError("Número de personas debe ser un entero") from e
+    if people_i < 1:
+        raise ValueError("Número de personas debe ser >= 1")
+
+    # Llamada a la función real
+    tip, total = calcular_propina(bill_f, pct_f)
+    per_person = total / people_i
+
+    return tip, total, per_person
+
+# ---------- Tests (pytest style) ----------
+
+def test_positive_amounts_and_calculation():
+    # casos típicos
+    cases = [
+        (0.0, 10.0, 1),
+        (1.23, 10.0, 1),
+        (1000.0, 10.0, 4),
+    ]
+    for bill, pct, people in cases:
+        tip, total, per = safe_calculate(bill, pct, people)
+        # propina correcta
+        assert math.isclose(tip, bill * (pct / 100.0), rel_tol=1e-9)
+        # total correcto
+        assert math.isclose(total, bill + tip, rel_tol=1e-9)
+        # por persona correcto
+        assert math.isclose(per, total / people, rel_tol=1e-9)
+        # todos los montos no negativos
+        assert tip >= 0
+        assert total >= 0
+        assert per >= 0
+
+def test_negative_bill_raises_value_error():
+    try:
+        safe_calculate(-5.0, 10.0, 1)
+        raised = False
+    except ValueError as e:
+        raised = True
+        assert "factura" in str(e).lower() or "positivo" in str(e).lower()
+    assert raised
+
+def test_people_must_be_positive_integer():
+    # cero personas
+    for invalid in [0, -1, "0", "-3"]:
+        try:
+            safe_calculate(50.0, 10.0, invalid)
+            raised = False
+        except ValueError:
+            raised = True
+        assert raised
+
+    # no entero (float string)
+    for invalid in [2.5, "3.7", "dos"]:
+        try:
+            safe_calculate(50.0, 10.0, invalid)
+            raised = False
+        except ValueError:
+            raised = True
+        assert raised
+
+def test_try_except_handling_example():
+    # ejemplo de manejo con try/except: la prueba comprueba que el bloque captura el error
+    error_caught = False
+    try:
+        # entrada inválida intencional
+        safe_calculate("no-num", 10.0, 1)
+    except ValueError as e:
+        error_caught = True
+        # mensaje útil para el usuario
+        assert "no es un número" in str(e).lower() or "factura" in str(e).lower()
+    assert error_caught
+
+# Permite ejecutar el archivo directamente sin pytest
+if __name__ == "__main__":
+    tests = [
+        test_positive_amounts_and_calculation,
+        test_negative_bill_raises_value_error,
+        test_people_must_be_positive_integer,
+        test_try_except_handling_example,
+    ]
+    for t in tests:
+        try:
+            t()
+            print(f"{t.__name__}: OK")
+        except AssertionError as ae:
+            print(f"{t.__name__}: FALLÓ -> {ae}")
+        except Exception as ex:
+            print(f"{t.__name__}: ERROR inesperado -> {ex}")
+Notas prácticas
+safe_calculate centraliza las validaciones y lanza ValueError con mensajes claros; así las pruebas pueden comprobar tanto la lógica como el manejo de errores.
+
+Las pruebas usan try/except en algunos casos para demostrar explícitamente cómo capturar y verificar errores en tiempo de ejecución.
+
+Ejecuta con pytest desde la raíz del proyecto (python -m pytest) o directamente: python test\test_manual.py.
+
+¿Quieres que adapte estas pruebas para usar unittest en lugar de pytest o que añada mensajes de error más detallados para cada caso fallido?
+
+si
+Código: módulo src/tip_cli.py (validaciones y excepciones)
+python
+# src/tip_cli.py
+from typing import Tuple
+
+def calcular_propina(bill: float, porcentaje: float = 10.0) -> Tuple[float, float]:
+    """
+    Calcula la propina y el total.
+    - bill: importe de la factura (>= 0)
+    - porcentaje: porcentaje de propina (puede ser 0 o positivo)
+    Devuelve (propina, total). Lanza ValueError en entradas inválidas.
+    """
+    try:
+        bill_f = float(str(bill).replace(',', '.'))
+    except Exception as e:
+        raise ValueError("Factura no es un número válido") from e
+    if bill_f < 0:
+        raise ValueError("La factura debe ser un número positivo o cero")
+
+    try:
+        pct_f = float(str(porcentaje).replace(',', '.'))
+    except Exception as e:
+        raise ValueError("Porcentaje no es un número válido") from e
+    if pct_f < 0:
+        raise ValueError("El porcentaje debe ser >= 0")
+
+    tip = bill_f * (pct_f / 100.0)
+    total = bill_f + tip
+    return tip, total
+Código: pruebas con unittest — test/test_manual_unittest.py
+python
+# test/test_manual_unittest.py
+import sys
+import unittest
+from pathlib import Path
+
+# Asegura que la raíz del proyecto sea importable (para que 'src' funcione)
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from src.tip_cli import calcular_propina
+
+class TestCalculadoraPropinas(unittest.TestCase):
+    def test_montos_positivos_y_calculo(self):
+        cases = [
+            (0.0, 10.0, 1),
+            (1.23, 10.0, 1),
+            (1000.0, 10.0, 4),
+        ]
+        for bill, pct, people in cases:
+            with self.subTest(bill=bill, pct=pct, people=people):
+                tip, total = calcular_propina(bill, pct)
+                self.assertGreaterEqual(tip, 0.0, "La propina debe ser >= 0")
+                self.assertGreaterEqual(total, 0.0, "El total debe ser >= 0")
+                # comprobaciones aritméticas
+                self.assertAlmostEqual(tip, bill * (pct / 100.0), places=9)
+                self.assertAlmostEqual(total, bill + tip, places=9)
+                # división por personas (comprobación auxiliar)
+                per_person = total / people
+                self.assertGreaterEqual(per_person, 0.0)
+
+    def test_factura_negativa_lanza_value_error(self):
+        with self.assertRaises(ValueError) as cm:
+            calcular_propina(-5.0, 10.0)
+        self.assertIn("factura", str(cm.exception).lower())
+
+    def test_porcentaje_negativo_lanza_value_error(self):
+        with self.assertRaises(ValueError) as cm:
+            calcular_propina(50.0, -10.0)
+        self.assertIn("porcentaje", str(cm.exception).lower())
+
+    def test_entrada_no_numerica_manejada(self):
+        # probar que cadenas no numéricas lanzan ValueError
+        with self.assertRaises(ValueError):
+            calcular_propina("no-num", 10.0)
+        with self.assertRaises(ValueError):
+            calcular_propina(50.0, "no-pct")
+
+    def test_numero_personas_entero_positivo_validacion_manual(self):
+        # Esta función no recibe 'people', así que validamos externamente
+        def safe_divide(total, people):
+            try:
+                people_i = int(people)
+            except Exception as e:
+                raise ValueError("Número de personas debe ser un entero") from e
+            if people_i < 1:
+                raise ValueError("Número de personas debe ser >= 1")
+            return total / people_i
+
+        tip, total = calcular_propina(100.0, 10.0)
+        # casos válidos
+        self.assertAlmostEqual(safe_divide(total, 1), total)
+        self.assertAlmostEqual(safe_divide(total, "2"), total / 2)
+
+        # casos inválidos: deben lanzar ValueError
+        for invalid in [0, -1, "0", "-3", 2.5, "3.7", "dos"]:
+            with self.subTest(invalid=invalid):
+                with self.assertRaises(ValueError):
+                    safe_divide(total, invalid)
+
+    def test_try_except_handling_example(self):
+        # ejemplo que demuestra manejo con try/except en el código de llamada
+        error_caught = False
+        try:
+            calcular_propina("no-num", 10.0)
+        except ValueError as e:
+            error_caught = True
+            self.assertTrue("no es un número" in str(e).lower() or "factura" in str(e).lower())
+        self.assertTrue(error_caught, "Se esperaba capturar un ValueError")
+
+if __name__ == "__main__":
+    unittest.main()
+Cómo ejecutar las pruebas (rápido)
+Sitúate en la raíz del proyecto (la carpeta que contiene src/ y test/).
+
+Ejecuta con python -m unittest o python -m unittest discover o bien:
+
+python -m unittest test.test_manual_unittest  
+Estos comandos ejecutan las pruebas unittest y muestran resultados legibles.
+
+Consideraciones y mejoras prácticas
+Responsabilidad de validación: calcular_propina valida tipos y rangos básicos; la validación del número de personas se hace en la capa que divide el total (ejemplo safe_divide) para mantener la función enfocada.
+
+Mensajes de error: las pruebas comprueban fragmentos del mensaje para asegurar que las excepciones sean informativas.
+
+Extensibilidad: si prefieres que calcular_propina acepte también people y haga la validación internamente, puedo adaptar la función y las pruebas en consecuencia.
+
+¿Quieres que modifique calcular_propina para que acepte people y devuelva también el importe por persona (con validación integrada)?
+
+Implementación: src/tip_cli.py (acepta people y valida entradas)
+python
+# src/tip_cli.py
+from typing import Tuple
+
+def calcular_propina(bill: float, porcentaje: float = 10.0, people: int = 1) -> Tuple[float, float, float]:
+    """
+    Calcula la propina, el total y el importe por persona.
+
+    Parámetros
+    - bill: importe de la factura (>= 0). Se aceptan strings con coma o punto.
+    - porcentaje: porcentaje de propina (>= 0). Se aceptan strings con coma o punto.
+    - people: número de personas (entero >= 1). Se aceptan strings que representen enteros.
+
+    Devuelve
+    - (tip, total, per_person)
+
+    Lanza ValueError con mensajes claros si alguna entrada es inválida.
+    """
+    # Validar y convertir bill
+    try:
+        bill_f = float(str(bill).replace(',', '.'))
+    except Exception as e:
+        raise ValueError("Factura no es un número válido") from e
+    if bill_f < 0:
+        raise ValueError("La factura debe ser un número positivo o cero")
+
+    # Validar y convertir porcentaje
+    try:
+        pct_f = float(str(porcentaje).replace(',', '.'))
+    except Exception as e:
+        raise ValueError("Porcentaje no es un número válido") from e
+    if pct_f < 0:
+        raise ValueError("El porcentaje debe ser >= 0")
+
+    # Validar y convertir people
+    try:
+        people_i = int(str(people))
+    except Exception as e:
+        raise ValueError("Número de personas debe ser un entero") from e
+    if people_i < 1:
+        raise ValueError("Número de personas debe ser >= 1")
+
+    tip = bill_f * (pct_f / 100.0)
+    total = bill_f + tip
+    per_person = total / people_i
+
+    return tip, total, per_person
+Pruebas con unittest actualizadas — test/test_manual_unittest.py
+python
+# test/test_manual_unittest.py
+import sys
+import unittest
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from src.tip_cli import calcular_propina
+
+class TestCalculadoraPropinas(unittest.TestCase):
+    def test_montos_positivos_y_calculo(self):
+        cases = [
+            (0.0, 10.0, 1),
+            ("1,23", "10", 1),
+            (1000.0, 10.0, 4),
+        ]
+        for bill, pct, people in cases:
+            with self.subTest(bill=bill, pct=pct, people=people):
+                tip, total, per_person = calcular_propina(bill, pct, people)
+                self.assertGreaterEqual(tip, 0.0, "La propina debe ser >= 0")
+                self.assertGreaterEqual(total, 0.0, "El total debe ser >= 0")
+                self.assertAlmostEqual(tip, float(str(bill).replace(',', '.')) * (float(str(pct).replace(',', '.')) / 100.0), places=9)
+                self.assertAlmostEqual(total, float(str(bill).replace(',', '.')) + tip, places=9)
+                self.assertAlmostEqual(per_person, total / int(str(people)), places=9)
+
+    def test_factura_negativa_lanza_value_error(self):
+        with self.assertRaises(ValueError) as cm:
+            calcular_propina(-5.0, 10.0, 1)
+        self.assertIn("factura", str(cm.exception).lower())
+
+    def test_porcentaje_negativo_lanza_value_error(self):
+        with self.assertRaises(ValueError) as cm:
+            calcular_propina(50.0, -10.0, 1)
+        self.assertIn("porcentaje", str(cm.exception).lower())
+
+    def test_people_invalid_lanza_value_error(self):
+        for invalid in [0, -1, "0", "-3", 2.5, "3.7", "dos"]:
+            with self.subTest(invalid=invalid):
+                with self.assertRaises(ValueError):
+                    calcular_propina(100.0, 10.0, invalid)
+
+    def test_entrada_no_numerica_manejada(self):
+        with self.assertRaises(ValueError):
+            calcular_propina("no-num", 10.0, 1)
+        with self.assertRaises(ValueError):
+            calcular_propina(50.0, "no-pct", 1)
+
+    def test_try_except_handling_example(self):
+        error_caught = False
+        try:
+            calcular_propina("no-num", 10.0, 1)
+        except ValueError as e:
+            error_caught = True
+            self.assertTrue("no es un número" in str(e).lower() or "factura" in str(e).lower())
+        self.assertTrue(error_caught)
+
+if __name__ == "__main__":
+    unittest.main()
+Cómo ejecutar las pruebas (rápido)
+Sitúate en la raíz del proyecto (la carpeta que contiene src/ y test/).
+
+Ejecuta: python -m unittest o python -m unittest discover o python -m unittest test.test_manual_unittest.
+
+¿Prefieres que los mensajes de error sean más técnicos (para desarrolladores) o más amigables para usuarios finales?
+
+TypeError: calcular_propina() takes from 1 to 2 positional arguments but 3 were given
+Diagnóstico rápido — por qué ocurre ese TypeError
+El error significa que Python está importando una versión de calcular_propina que solo acepta 1–2 argumentos (por ejemplo bill y porcentaje) pero en las pruebas se le están pasando 3 (bill, porcentaje, people). Las causas más comunes son:
+
+El archivo src/tip_cli.py no contiene la firma actualizada (no tiene people como parámetro).
+
+Se está importando otro módulo con el mismo nombre (shadowing) desde otra ruta.
+
+Módulo cargado en una sesión interactiva no se ha recargado tras editar el archivo.
+
+sys.path apunta a una carpeta distinta y Python carga la versión equivocada.
+
+Comprobaciones y correcciones (pasos concretos)
+1) Verifica la firma real que Python está usando
+En la misma carpeta raíz del proyecto, crea y ejecuta este pequeño script para ver qué archivo y qué firma se está importando:
+
+python
+# check_signature.py
+import inspect
+import src.tip_cli as mod
+print("Archivo cargado:", mod.__file__)
+print("Firma de calcular_propina:", inspect.signature(mod.calcular_propina))
+print("Fuente (primeras 20 líneas):")
+import itertools
+src = open(mod.__file__, 'r', encoding='utf-8').read().splitlines()
+print("\n".join(itertools.islice(src, 0, 20)))
+Ejecuta:
+
+Código
+python check_signature.py
+Si mod.__file__ no apunta a .../src/tip_cli.py corrige sys.path o elimina el archivo duplicado.
+
+Si la firma no incluye people, edita src/tip_cli.py para que tenga def calcular_propina(bill, porcentaje=10.0, people=1):.
+
+2) Asegúrate de que src/tip_cli.py tenga la firma correcta
+El contenido mínimo correcto debe empezar así:
+
+python
+def calcular_propina(bill, porcentaje=10.0, people=1):
+    # validaciones...
+    ...
+    return tip, total, per_person
+Guarda el archivo y vuelve a ejecutar check_signature.py para confirmar.
+
+3) Si trabajas en REPL o en un entorno persistente (VSCode, IPython), recarga el módulo
+Después de editar el archivo, recarga con importlib.reload para evitar usar una versión en memoria:
+
+python
+import importlib
+import src.tip_cli as tip
+importlib.reload(tip)
+O en IPython:
+
+python
+%reload_ext autoreload
+%autoreload 2
+4) Evita shadowing y comprueba sys.path
+En tu test o en check_signature.py imprime sys.path y confirma que la raíz del proyecto está antes que otras rutas:
+
+python
+import sys
+print(sys.path)
+Si src no está en la ruta correcta, añade al inicio del test (ya lo haces en tus ejemplos):
+
+python
+from pathlib import Path
+import sys
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+5) Borra archivos .pyc y la carpeta __pycache__ si sospechas bytecode obsoleto
+Desde la raíz del proyecto:
+
+Código
+py -c "import shutil, pathlib; [shutil.rmtree(p) for p in pathlib.Path('.').rglob('__pycache__')]"
+o manualmente elimina __pycache__ en src/.
+
+6) Ejecuta las pruebas desde la raíz del proyecto
+En PowerShell / CMD (sitúate en la carpeta que contiene src/ y test/):
+
+Código
+cd C:\Users\IA\Documents\GitHub\Dicampus_IA\tareas\calculador_propinas
+python -m unittest test.test_manual_unittest
+o
+
+Código
+python -m unittest discover
+Resumen de acciones rápidas (ordenadas)
+Ejecuta check_signature.py para ver qué archivo y firma se están usando.
+
+Si la firma no incluye people, edita src/tip_cli.py y añade people=1.
+
+Borra __pycache__ y recarga el módulo si trabajas en REPL.
+
+Asegura que ejecutas las pruebas desde la raíz del proyecto y que sys.path incluye esa raíz.
+
+Vuelve a ejecutar python -m unittest ....
+
+¿Quieres que te genere automáticamente el check_signature.py listo para ejecutar y, si falla, que te devuelva el contenido actual detectado de src/tip_cli.py para que lo corrijamos juntos?
+
+hazme una versión de tip_cli con los tres parámetros de entrada compatible con la última versión de test_manual_unittest.py
+Implementación compatible de src/tip_cli.py
+python
+# src/tip_cli.py
+from typing import Tuple
+
+def calcular_propina(bill, porcentaje: float = 10.0, people: int = 1) -> Tuple[float, float, float]:
+    """
+    Calcula la propina, el total y el importe por persona.
+
+    Parámetros
+    - bill: importe de la factura (>= 0). Se aceptan números o strings con coma o punto.
+    - porcentaje: porcentaje de propina (>= 0). Se aceptan números o strings con coma o punto.
+    - people: número de personas (entero >= 1). Se aceptan enteros o strings que representen enteros.
+
+    Devuelve
+    - (tip, total, per_person)
+
+    Lanza ValueError con mensajes claros si alguna entrada es inválida.
+    """
+    # Validar y convertir bill
+    try:
+        bill_f = float(str(bill).replace(',', '.'))
+    except Exception as e:
+        raise ValueError("Factura no es un número válido") from e
+    if bill_f < 0:
+        raise ValueError("La factura debe ser un número positivo o cero")
+
+    # Validar y convertir porcentaje
+    try:
+        pct_f = float(str(porcentaje).replace(',', '.'))
+    except Exception as e:
+        raise ValueError("Porcentaje no es un número válido") from e
+    if pct_f < 0:
+        raise ValueError("El porcentaje debe ser >= 0")
+
+    # Validar y convertir people (debe ser entero)
+    try:
+        # convertir a string primero para que "2" funcione y "2.0" falle
+        people_i = int(str(people))
+    except Exception as e:
+        raise ValueError("Número de personas debe ser un entero") from e
+    if people_i < 1:
+        raise ValueError("Número de personas debe ser >= 1")
+
+    tip = bill_f * (pct_f / 100.0)
+    total = bill_f + tip
+    per_person = total / people_i
+
+    return tip, total, per_person
+Notas sobre compatibilidad con las pruebas
+La firma es calcular_propina(bill, porcentaje=10.0, people=1) y devuelve tres valores (tip, total, per_person), tal como espera test_manual_unittest.py.
+
+Los mensajes de error contienen las palabras clave que las pruebas buscan: "factura", "porcentaje", "Número de personas", y "no es un número", para que las aserciones sobre el texto de la excepción funcionen.
+
+La validación de people usa int(str(people)) para aceptar "2" pero rechazar "2.5" o "3.7", provocando ValueError en esos casos, como requieren las pruebas.
+
+Se manejan entradas con coma decimal (por ejemplo "1,23") convirtiéndolas a punto antes de parsear.
+
+Cómo probar rápidamente desde la raíz del proyecto
+Asegúrate de que el archivo esté en src/tip_cli.py.
+
+Desde la carpeta que contiene src/ y test/, ejecuta:
+
+python -m unittest test.test_manual_unittest  
+o
+
+python -m unittest discover
+
+¿Quieres que adapte los mensajes de error para que sean más amigables para usuarios finales (por ejemplo, con sugerencias de corrección) o que deje los mensajes tal cual para facilitar la depuración por desarrolladores?
+
+hazme una versión de tip_gui.py compatible con esta última versión de tip_cli.py
+Vista general
+Interfaz gráfica en Tkinter compatible con la versión de calcular_propina(bill, porcentaje=10.0, people=1) en src/tip_cli.py. La GUI valida entradas, maneja excepciones con try/except, actualiza resultados en tiempo real y muestra mensajes de error claros.
+
+Archivo: tip_gui.py
+python
+#!/usr/bin/env python3
+# tip_gui.py
+import sys
+from pathlib import Path
+import tkinter as tk
+from tkinter import ttk
+
+# Intentar importar la función desde src; si falla, añadir la raíz del proyecto al path
+try:
+    from src.tip_cli import calcular_propina
+except Exception:
+    ROOT = Path(__file__).resolve().parents[1]
+    sys.path.insert(0, str(ROOT))
+    from src.tip_cli import calcular_propina
+
+def formato_eur(value: float) -> str:
+    return f"{value:,.2f} €"
+
+def actualizar(*_):
+    """Leer entradas, llamar a calcular_propina y actualizar la UI; manejar errores."""
+    # limpiar mensaje de error
+    error_var.set("")
+    try:
+        bill = bill_var.get().strip()
+        pct = pct_var.get().strip()
+        people = people_var.get().strip()
+
+        # Llamada a la función central; calcular_propina validará y lanzará ValueError si procede
+        tip, total, per_person = calcular_propina(bill or "0", pct or "10", people or "1")
+
+        tip_var.set(formato_eur(tip))
+        total_var.set(formato_eur(total))
+        per_var.set(formato_eur(per_person))
+    except ValueError as ve:
+        # mostrar mensaje de error legible
+        tip_var.set("—")
+        total_var.set("—")
+        per_var.set("—")
+        error_var.set(str(ve))
+    except Exception as e:
+        tip_var.set("—")
+        total_var.set("—")
+        per_var.set("—")
+        error_var.set("Error inesperado: " + str(e))
+
+def reset():
+    bill_var.set("0.00")
+    pct_var.set("10")
+    people_var.set("1")
+    actualizar()
+
+root = tk.Tk()
+root.title("Calculadora de Propinas")
+
+frm = ttk.Frame(root, padding=16)
+frm.grid(sticky="nsew")
+
+# Entradas
+ttk.Label(frm, text="Valor de la factura (€)").grid(column=0, row=0, sticky="w")
+bill_var = tk.StringVar(value="0.00")
+bill_entry = ttk.Entry(frm, textvariable=bill_var, width=20)
+bill_entry.grid(column=0, row=1, pady=6, sticky="we")
+
+ttk.Label(frm, text="Porcentaje (%)").grid(column=0, row=2, sticky="w")
+pct_var = tk.StringVar(value="10")
+pct_entry = ttk.Entry(frm, textvariable=pct_var, width=20)
+pct_entry.grid(column=0, row=3, pady=6, sticky="we")
+
+ttk.Label(frm, text="Dividir entre (personas)").grid(column=0, row=4, sticky="w")
+people_var = tk.StringVar(value="1")
+people_entry = ttk.Entry(frm, textvariable=people_var, width=20)
+people_entry.grid(column=0, row=5, pady=6, sticky="we")
+
+# Botones
+btn_frame = ttk.Frame(frm)
+btn_frame.grid(column=0, row=6, pady=10, sticky="we")
+calc_btn = ttk.Button(btn_frame, text="Calcular", command=actualizar)
+calc_btn.pack(side="left", padx=(0, 8))
+reset_btn = ttk.Button(btn_frame, text="Limpiar", command=reset)
+reset_btn.pack(side="left")
+
+# Resultados
+ttk.Separator(frm, orient="horizontal").grid(column=0, row=7, sticky="we", pady=8)
+
+tip_var = tk.StringVar(value="0.00 €")
+total_var = tk.StringVar(value="0.00 €")
+per_var = tk.StringVar(value="0.00 €")
+error_var = tk.StringVar(value="")
+
+ttk.Label(frm, text="Propina:").grid(column=0, row=8, sticky="w")
+ttk.Label(frm, textvariable=tip_var).grid(column=0, row=9, sticky="e")
+
+ttk.Label(frm, text="Total:").grid(column=0, row=10, sticky="w")
+ttk.Label(frm, textvariable=total_var).grid(column=0, row=11, sticky="e")
+
+ttk.Label(frm, text="Por persona:").grid(column=0, row=12, sticky="w")
+ttk.Label(frm, textvariable=per_var).grid(column=0, row=13, sticky="e")
+
+# Mensaje de error
+error_label = ttk.Label(frm, textvariable=error_var, foreground="red")
+error_label.grid(column=0, row=14, pady=(8, 0), sticky="we")
+
+# Actualizar en tiempo real al cambiar entradas
+for var in (bill_var, pct_var, people_var):
+    var.trace_add("write", actualizar)
+
+# Ajustes de ventana
+root.columnconfigure(0, weight=1)
+frm.columnconfigure(0, weight=1)
+bill_entry.focus()
+
+# Calcular inicialmente
+actualizar()
+
+if __name__ == "__main__":
+    root.mainloop()
+Cómo usarlo
+Coloca tip_gui.py en la raíz del proyecto (junto a src/ y test/) o en la carpeta que prefieras.
+
+Asegúrate de que src/tip_cli.py contiene la función calcular_propina(bill, porcentaje=10.0, people=1).
+
+Ejecuta: python tip_gui.py. La interfaz actualizará resultados en cuanto modifiques cualquier campo.
+
+Notas técnicas y de validación
+La GUI delega la validación a calcular_propina y captura ValueError para mostrar mensajes al usuario; así la lógica de negocio permanece centralizada y las pruebas unitarias siguen siendo válidas.
+
+Se acepta entrada con coma decimal (por ejemplo "1,23") porque calcular_propina ya lo maneja.
+
+Si el import falla, el script añade la raíz del proyecto a sys.path para evitar problemas de rutas durante desarrollo.
+
+¿Quieres que añada un pequeño icono, atajos de teclado (Enter para calcular, Esc para limpiar) o que empaquete la GUI como ejecutable para Windows?
+
+donde debo colocar el gitignore para quitar archivos en github
+Dónde colocar .gitignore y cómo funciona
+Coloca un archivo llamado .gitignore en la raíz del repositorio (la carpeta que contiene .git/). Ese fichero controla qué archivos o patrones Git ignora para todo el repositorio y es la forma más habitual de “quitar” archivos de futuros commits en GitHub.
+
+Opciones y alcance de los .gitignore
+.gitignore en la raíz del repositorio — aplica a todo el repositorio; recomendado para la mayoría de los casos.
+
+.gitignore por subcarpeta — puedes tener varios .gitignore en subdirectorios; cada uno aplica a su carpeta y subcarpetas.
+
+Ignorar globalmente en tu máquina — para reglas personales (por ejemplo *.log, .DS_Store) usa un archivo global, p. ej. ~/.gitignore_global, y configúralo con git config --global core.excludesfile ~/.gitignore_global.
+
+Ejemplo mínimo de .gitignore en la raíz
+gitignore
+# Archivos de entorno y dependencias
+venv/
+__pycache__/
+*.pyc
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de editor
+.vscode/
+.idea/
+
+# Archivos de build y binarios
+dist/
+build/
+*.exe
+Guarda ese fichero como .gitignore en la raíz y haz commit.
+
+Qué hacer si los archivos ya están en el repositorio (ya fueron commiteados)
+Si un archivo ya está trackeado por Git, añadirlo al .gitignore no lo elimina del historial ni deja de trackearlo automáticamente. Para dejar de trackearlo sin borrarlo localmente:
+
+Desde la raíz del repo:
+
+bash
+git rm --cached ruta/al/archivo
+git commit -m "Dejar de trackear archivo X"
+git push
+Para dejar de trackear todos los archivos que ahora coinciden con .gitignore:
+
+bash
+git rm -r --cached .
+git add .
+git commit -m "Aplicar .gitignore y dejar de trackear archivos ignorados"
+git push
+Nota: git rm --cached quita el archivo del índice (staging) y del próximo commit, pero no borra el archivo en tu disco local.
+
+Si necesitas eliminar archivos sensibles del historial (más complejo)
+Para borrar archivos de todos los commits anteriores (por ejemplo, claves o ficheros grandes), hay que reescribir el historial. Herramientas comunes: BFG Repo-Cleaner o git filter-repo.
+
+Reescribir historial cambia los hashes de commits; todos los colaboradores deberán volver a clonar o forzar sincronizar. Es una operación con impacto, planifícala y haz backup antes.
+
+Comprobaciones útiles después de aplicar .gitignore
+Verifica qué archivos están siendo ignorados:
+
+bash
+git status --ignored
+Verifica si un archivo concreto está siendo ignorado:
+
+bash
+git check-ignore -v ruta/al/archivo
+Buenas prácticas rápidas
+Mantén .gitignore en la raíz para reglas del proyecto; usa .gitignore por carpeta solo si necesitas excepciones locales.
+
+Añade al .gitignore patrones generales (entornos virtuales, builds, IDEs) y deja en el repo solo lo necesario para reproducir el proyecto.
+
+Si hay archivos sensibles ya comiteados, actúa con cuidado: reescribir historial es efectivo pero disruptivo.
+
+¿Quieres que te genere un .gitignore específico para Python/Tkinter/VSCode o que te prepare los comandos exactos para eliminar del repo los archivos que ahora mismo te están molestando?
+
+¿cómo redondeo números a dos decimales en Python?
+Redondeo a dos decimales — respuesta rápida
+Usa round() para cálculos rápidos y format/f-strings para mostrar; para dinero o precisión exacta usa decimal.Decimal con quantize.
+
+Ejemplos prácticos
+1. round() (resultado numérico)
+python
+x = 2.34567
+y = round(x, 2)   # 2.35
+2. Formateo para mostrar (cadena)
+python
+x = 2.34567
+s1 = "{:.2f}".format(x)     # '2.35'
+s2 = f"{x:.2f}"             # '2.35'
+s3 = format(x, ".2f")       # '2.35'
+3. decimal.Decimal para control de redondeo (recomendado para dinero)
+python
+from decimal import Decimal, ROUND_HALF_UP
+
+x = Decimal("2.345")
+rounded = x.quantize(Decimal("0.00"), rounding=ROUND_HALF_UP)  # Decimal('2.35')
+4. Forzar truncado (sin redondeo)
+python
+import math
+
+x = 2.349
+trunc2 = math.floor(x * 100) / 100  # 2.34
+Diferencias importantes y cuándo usar cada uno
+round() devuelve un float. Es rápido pero puede mostrar artefactos por la representación binaria de los float (por ejemplo round(2.675, 2) puede dar 2.67 en algunas versiones de Python).
+
+Formateo ("{:.2f}" o f-strings) es ideal para presentar valores al usuario; devuelve una cadena con exactamente dos decimales.
+
+decimal.Decimal es la opción correcta para finanzas o cuando necesitas un comportamiento de redondeo determinista; permite elegir modos de redondeo (ROUND_HALF_UP, ROUND_HALF_EVEN, etc.).
+
+Truncado con math.floor sirve si necesitas cortar sin redondear.
+
+Modos de redondeo comunes con decimal
+ROUND_HALF_UP — redondea .5 hacia arriba (comportamiento humano esperado).
+
+ROUND_HALF_EVEN — redondeo bancario (empata a par).
+Ejemplo:
+
+python
+from decimal import Decimal, ROUND_HALF_EVEN, ROUND_HALF_UP
+
+x = Decimal("2.5")
+x.quantize(Decimal("0"), rounding=ROUND_HALF_UP)    # 3
+x.quantize(Decimal("0"), rounding=ROUND_HALF_EVEN)  # 2
+Buenas prácticas para aplicaciones reales
+Para cálculos monetarios usa Decimal desde el inicio (no conviertas desde float).
+
+Para mostrar valores al usuario, formatea con f"{value:.2f}" o con locale si necesitas separadores y símbolo local.
+
+Evita confiar en float para comparaciones de igualdad; usa tolerancias (math.isclose) o Decimal.
+
+Pruebas rápidas
+Comprueba casos límite: 2.675, 2.5, -1.235.
+
+Verifica el modo de redondeo que necesitas (humano vs bancario).
+
+Si usas Decimal, añade tests que confirmen el quantize con el rounding elegido.
+
+¿Quieres que te genere fragmentos listos para copiar que integren Decimal en tu calculadora de propinas (CLI o GUI) y que incluyan tests unitarios para los casos límite?
+
+añade un redondeo humano a tip_cli.py
+Código actualizado de src/tip_cli.py
+python
+# src/tip_cli.py
+from typing import Tuple
+from decimal import Decimal, ROUND_HALF_UP, InvalidOperation
+
+def _to_decimal(value, name: str) -> Decimal:
+    try:
+        s = str(value).strip().replace(',', '.')
+        return Decimal(s)
+    except (InvalidOperation, ValueError, TypeError) as e:
+        raise ValueError(f"{name} no es un número válido") from e
+
+def calcular_propina(bill, porcentaje: float = 10.0, people: int = 1) -> Tuple[float, float, float]:
+    """
+    Calcula la propina, el total y el importe por persona usando redondeo humano (ROUND_HALF_UP).
+
+    - bill: importe de la factura (>= 0). Se aceptan números o strings con coma o punto.
+    - porcentaje: porcentaje de propina (>= 0). Se aceptan números o strings con coma o punto.
+    - people: número de personas (entero >= 1). Se aceptan enteros o strings que representen enteros.
+
+    Devuelve (tip, total, per_person) como floats redondeados a 2 decimales.
+    Lanza ValueError con mensajes claros si alguna entrada es inválida.
+    """
+    # Convertir y validar bill
+    bill_d = _to_decimal(bill, "Factura")
+    if bill_d < 0:
+        raise ValueError("La factura debe ser un número positivo o cero")
+
+    # Convertir y validar porcentaje
+    pct_d = _to_decimal(porcentaje, "Porcentaje")
+    if pct_d < 0:
+        raise ValueError("El porcentaje debe ser >= 0")
+
+    # Validar people como entero
+    try:
+        people_i = int(str(people))
+    except Exception as e:
+        raise ValueError("Número de personas debe ser un entero") from e
+    if people_i < 1:
+        raise ValueError("Número de personas debe ser >= 1")
+
+    # Cálculo con Decimal para evitar errores de float
+    # tip = bill * (pct / 100)
+    tip_d = (bill_d * (pct_d / Decimal('100'))).quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+    total_d = (bill_d + tip_d).quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+    per_person_d = (total_d / Decimal(people_i)).quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+
+    # Devolver como floats (compatibilidad con tests existentes)
+    return float(tip_d), float(total_d), float(per_person_d)
+Notas breves
+Redondeo humano: usa ROUND_HALF_UP vía decimal.Decimal.quantize para comportarse como el redondeo que la mayoría espera (0.5 hacia arriba).
+
+Entradas: acepta strings con coma decimal (p. ej. "1,23") y números; lanza ValueError con mensajes consistentes con las pruebas.
+
+Salida: devuelve float para mantener compatibilidad con las pruebas unittest existentes; internamente se calcula y redondea con Decimal.
+
+¿Quieres que también devuelva Decimal en lugar de float o que añada una función auxiliar para formatear la salida con el símbolo €?
+
+¿Cómo formateo un número como moneda con el símbolo $?
+Formatear números como moneda con el símbolo dólar
+A continuación tienes métodos prácticos (desde el más simple al más robusto), ejemplos listos para copiar y notas sobre cuándo usar cada uno.
+
+1. Formateo rápido con f-strings o format
+Útil para mostrar valores con separador de miles en estilo inglés y dos decimales.
+
+No aplica reglas locales (p. ej. separador decimal distinto).
+
+python
+value = 12345.678
+s = f"${value:,.2f}"      # -> '$12,345.68'
+# o
+s2 = "${:,.2f}".format(value)
+Ventaja: simple y sin dependencias.
+Limitación: siempre usa coma para miles y punto para decimales.
+
+2. Usar locale para formato local y símbolo
+Útil si quieres respetar convenciones regionales (separadores, posición del símbolo).
+
+Requiere configurar la locale del sistema; en Windows los nombres pueden variar.
+
+python
+import locale
+
+# Ejemplo para Estados Unidos (Linux/macOS suele aceptar 'en_US.UTF-8')
+locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+value = 12345.678
+s = locale.currency(value, symbol=True, grouping=True)  # -> '$12,345.68'
+Notas:
+
+En Windows puede ser 'English_United States.1252'.
+
+locale.setlocale afecta todo el proceso; ten cuidado en aplicaciones multihilo.
+
+Si setlocale falla, prueba con otras variantes o usa babel.
+
+3. Usar babel para formateo robusto por locale (recomendado para apps)
+babel maneja locales sin cambiar el estado global y es consistente entre plataformas.
+
+Instalar: pip install Babel
+
+python
+from babel.numbers import format_currency
+
+value = 12345.678
+s = format_currency(value, 'USD', locale='en_US')   # -> '$12,345.68'
+# Para español de España con símbolo $ (raro, pero posible)
+s2 = format_currency(value, 'USD', locale='es_ES')  # -> '12.345,68 US$'
+Ventaja: control fino, consistente y seguro en servidores.
+Limitación: dependencia externa.
+
+4. Formateo con Decimal para dinero y luego mostrar con $
+Usa decimal.Decimal para cálculos exactos y ROUND_HALF_UP para redondeo humano, luego formatea la cadena.
+
+python
+from decimal import Decimal, ROUND_HALF_UP
+
+value = Decimal('12345.678')
+rounded = value.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)  # Decimal('12345.68')
+s = f"${rounded:,.2f}"  # -> '$12,345.68'  (rounded es Decimal, formateo funciona)
+Ventaja: precisión en cálculos monetarios; control de redondeo.
+
+5. Ejemplo completo integrable en tu calculadora
+Devuelve cadena con $ y formato legible, usando Decimal internamente:
+
+python
+from decimal import Decimal, ROUND_HALF_UP
+
+def format_usd(amount):
+    d = Decimal(str(amount)).quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+    # convertir a float para usar formateo con separadores
+    return f"${float(d):,.2f}"
+
+# Uso
+print(format_usd('12345.678'))  # -> $12,345.68
+Consideraciones y recomendaciones
+Para scripts rápidos usa f-strings (f"${value:,.2f}").
+
+Para aplicaciones que respeten locales usa locale o, mejor, babel.
+
+Para dinero y cálculos usa Decimal y ROUND_HALF_UP antes de formatear.
+
+Posición del símbolo y separadores dependen del locale; babel es la opción más segura si tu app atiende usuarios internacionales.
+
+Evita cambiar globalmente la locale en aplicaciones multihilo o servidores; prefiere babel o formateo local por llamada.
+
+¿Quieres que integre una función format_currency_usd directamente en tip_cli.py y actualice la GUI para mostrar $ en lugar de €?
+
+si, integrala
+Código actualizado: src/tip_cli.py
+python
+# src/tip_cli.py
+from typing import Tuple
+from decimal import Decimal, ROUND_HALF_UP, InvalidOperation
+
+def _to_decimal(value, name: str) -> Decimal:
+    try:
+        s = str(value).strip().replace(',', '.')
+        return Decimal(s)
+    except (InvalidOperation, ValueError, TypeError) as e:
+        raise ValueError(f"{name} no es un número válido") from e
+
+def calcular_propina(bill, porcentaje: float = 10.0, people: int = 1) -> Tuple[float, float, float]:
+    """
+    Calcula la propina, el total y el importe por persona usando redondeo humano (ROUND_HALF_UP).
+
+    - bill: importe de la factura (>= 0). Se aceptan números o strings con coma o punto.
+    - porcentaje: porcentaje de propina (>= 0). Se aceptan números o strings con coma o punto.
+    - people: número de personas (entero >= 1). Se aceptan enteros o strings que representen enteros.
+
+    Devuelve (tip, total, per_person) como floats redondeados a 2 decimales.
+    Lanza ValueError con mensajes claros si alguna entrada es inválida.
+    """
+    bill_d = _to_decimal(bill, "Factura")
+    if bill_d < 0:
+        raise ValueError("La factura debe ser un número positivo o cero")
+
+    pct_d = _to_decimal(porcentaje, "Porcentaje")
+    if pct_d < 0:
+        raise ValueError("El porcentaje debe ser >= 0")
+
+    try:
+        people_i = int(str(people))
+    except Exception as e:
+        raise ValueError("Número de personas debe ser un entero") from e
+    if people_i < 1:
+        raise ValueError("Número de personas debe ser >= 1")
+
+    tip_d = (bill_d * (pct_d / Decimal('100'))).quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+    total_d = (bill_d + tip_d).quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+    per_person_d = (total_d / Decimal(people_i)).quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+
+    return float(tip_d), float(total_d), float(per_person_d)
+
+def format_currency_usd(amount) -> str:
+    """
+    Formatea un número como moneda en dólares con redondeo humano y separador de miles.
+    - amount: número, Decimal o string.
+    Devuelve una cadena como '$12,345.68'.
+    """
+    try:
+        d = _to_decimal(amount, "Cantidad")
+    except ValueError as e:
+        raise ValueError("Cantidad no es un número válido") from e
+
+    d_q = d.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+    # Convertir a float para usar formateo con separadores; Decimal también funciona con format, pero float es práctico.
+    return f"${float(d_q):,.2f}"
+Código actualizado: tip_gui.py (muestra $ usando format_currency_usd)
+python
+#!/usr/bin/env python3
+# tip_gui.py
+import sys
+from pathlib import Path
+import tkinter as tk
+from tkinter import ttk
+
+# Intentar importar la función desde src; si falla, añadir la raíz del proyecto al path
+try:
+    from src.tip_cli import calcular_propina, format_currency_usd
+except Exception:
+    ROOT = Path(__file__).resolve().parents[1]
+    sys.path.insert(0, str(ROOT))
+    from src.tip_cli import calcular_propina, format_currency_usd
+
+def actualizar(*_):
+    error_var.set("")
+    try:
+        bill = bill_var.get().strip()
+        pct = pct_var.get().strip()
+        people = people_var.get().strip()
+
+        tip, total, per_person = calcular_propina(bill or "0", pct or "10", people or "1")
+
+        tip_var.set(format_currency_usd(tip))
+        total_var.set(format_currency_usd(total))
+        per_var.set(format_currency_usd(per_person))
+    except ValueError as ve:
+        tip_var.set("—")
+        total_var.set("—")
+        per_var.set("—")
+        error_var.set(str(ve))
+    except Exception as e:
+        tip_var.set("—")
+        total_var.set("—")
+        per_var.set("—")
+        error_var.set("Error inesperado: " + str(e))
+
+def reset():
+    bill_var.set("0.00")
+    pct_var.set("10")
+    people_var.set("1")
+    actualizar()
+
+root = tk.Tk()
+root.title("Calculadora de Propinas (USD)")
+
+frm = ttk.Frame(root, padding=16)
+frm.grid(sticky="nsew")
+
+ttk.Label(frm, text="Valor de la factura").grid(column=0, row=0, sticky="w")
+bill_var = tk.StringVar(value="0.00")
+bill_entry = ttk.Entry(frm, textvariable=bill_var, width=20)
+bill_entry.grid(column=0, row=1, pady=6, sticky="we")
+
+ttk.Label(frm, text="Porcentaje (%)").grid(column=0, row=2, sticky="w")
+pct_var = tk.StringVar(value="10")
+pct_entry = ttk.Entry(frm, textvariable=pct_var, width=20)
+pct_entry.grid(column=0, row=3, pady=6, sticky="we")
+
+ttk.Label(frm, text="Dividir entre (personas)").grid(column=0, row=4, sticky="w")
+people_var = tk.StringVar(value="1")
+people_entry = ttk.Entry(frm, textvariable=people_var, width=20)
+people_entry.grid(column=0, row=5, pady=6, sticky="we")
+
+btn_frame = ttk.Frame(frm)
+btn_frame.grid(column=0, row=6, pady=10, sticky="we")
+calc_btn = ttk.Button(btn_frame, text="Calcular", command=actualizar)
+calc_btn.pack(side="left", padx=(0, 8))
+reset_btn = ttk.Button(btn_frame, text="Limpiar", command=reset)
+reset_btn.pack(side="left")
+
+ttk.Separator(frm, orient="horizontal").grid(column=0, row=7, sticky="we", pady=8)
+
+tip_var = tk.StringVar(value="$0.00")
+total_var = tk.StringVar(value="$0.00")
+per_var = tk.StringVar(value="$0.00")
+error_var = tk.StringVar(value="")
+
+ttk.Label(frm, text="Propina:").grid(column=0, row=8, sticky="w")
+ttk.Label(frm, textvariable=tip_var).grid(column=0, row=9, sticky="e")
+
+ttk.Label(frm, text="Total:").grid(column=0, row=10, sticky="w")
+ttk.Label(frm, textvariable=total_var).grid(column=0, row=11, sticky="e")
+
+ttk.Label(frm, text="Por persona:").grid(column=0, row=12, sticky="w")
+ttk.Label(frm, textvariable=per_var).grid(column=0, row=13, sticky="e")
+
+error_label = ttk.Label(frm, textvariable=error_var, foreground="red")
+error_label.grid(column=0, row=14, pady=(8, 0), sticky="we")
+
+for var in (bill_var, pct_var, people_var):
+    var.trace_add("write", actualizar)
+
+root.columnconfigure(0, weight=1)
+frm.columnconfigure(0, weight=1)
+bill_entry.focus()
+actualizar()
+
+if __name__ == "__main__":
+    root.mainloop()
+Qué cambia y por qué
+format_currency_usd formatea con redondeo humano y separador de miles, devolviendo cadenas como $12,345.68.
+
+La GUI ahora usa esa función para mostrar propina, total y por persona con el símbolo $.
+
+La lógica de negocio sigue centralizada en calcular_propina, que devuelve floats redondeados; el formateador se encarga solo de la presentación.
+
+¿Quieres que la GUI detecte automáticamente la moneda por locale y muestre $ o € según la configuración del sistema?
+
+si
+Detección automática de moneda por locale y formateo (código)
+A continuación tienes dos cambios listos para pegar: uno en src/tip_cli.py (funciones de cálculo y formateo local) y otro en tip_gui.py (la GUI usa el formateador detectado). El formateador intenta usar babel si está instalada; si no, usa locale del sistema con un fallback seguro. Usa Decimal y ROUND_HALF_UP para redondeo humano.
+
+src/tip_cli.py (actualizado)
+python
+# src/tip_cli.py
+from typing import Tuple
+from decimal import Decimal, ROUND_HALF_UP, InvalidOperation
+import locale
+
+def _to_decimal(value, name: str) -> Decimal:
+    try:
+        s = str(value).strip().replace(',', '.')
+        return Decimal(s)
+    except (InvalidOperation, ValueError, TypeError) as e:
+        raise ValueError(f"{name} no es un número válido") from e
+
+def calcular_propina(bill, porcentaje: float = 10.0, people: int = 1) -> Tuple[float, float, float]:
+    bill_d = _to_decimal(bill, "Factura")
+    if bill_d < 0:
+        raise ValueError("La factura debe ser un número positivo o cero")
+
+    pct_d = _to_decimal(porcentaje, "Porcentaje")
+    if pct_d < 0:
+        raise ValueError("El porcentaje debe ser >= 0")
+
+    try:
+        people_i = int(str(people))
+    except Exception as e:
+        raise ValueError("Número de personas debe ser un entero") from e
+    if people_i < 1:
+        raise ValueError("Número de personas debe ser >= 1")
+
+    tip_d = (bill_d * (pct_d / Decimal('100'))).quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+    total_d = (bill_d + tip_d).quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+    per_person_d = (total_d / Decimal(people_i)).quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+
+    return float(tip_d), float(total_d), float(per_person_d)
+
+# -------------------------
+# Formateo de moneda local
+# -------------------------
+def _try_babel_format(amount, currency_code, locale_str):
+    try:
+        from babel.numbers import format_currency
+    except Exception:
+        return None
+    try:
+        return format_currency(amount, currency_code, locale=locale_str)
+    except Exception:
+        return None
+
+def _locale_currency_fallback(amount):
+    """
+    Usa locale.currency tras configurar locale al valor por defecto del sistema.
+    Si falla, devuelve formato simple con símbolo USD.
+    """
+    try:
+        # '' indica usar la configuración regional del entorno
+        locale.setlocale(locale.LC_ALL, '')
+    except Exception:
+        # no podemos cambiar locale; seguir con la actual
+        pass
+    try:
+        # locale.currency maneja agrupación si grouping=True
+        return locale.currency(amount, symbol=True, grouping=True)
+    except Exception:
+        # fallback simple: símbolo dólar con separador de miles en estilo inglés
+        return f"${amount:,.2f}"
+
+def format_currency_local(amount) -> str:
+    """
+    Formatea amount como moneda según la configuración regional del sistema.
+    - Intenta usar babel si está disponible (más robusto).
+    - Si no, usa locale.currency.
+    - Si todo falla, devuelve '$12,345.68' como fallback.
+    Acepta Decimal, float o string.
+    """
+    # convertir a Decimal y redondear humanamente
+    try:
+        d = _to_decimal(amount, "Cantidad")
+    except ValueError as e:
+        raise ValueError("Cantidad no es un número válido") from e
+    d_q = d.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+
+    # intentar detectar locale y currency
+    # 1) obtener locale del sistema
+    loc = None
+    try:
+        loc = locale.getdefaultlocale()[0]  # e.g., 'es_ES'
+    except Exception:
+        loc = None
+
+    # 2) si babel está disponible, intentar formatear con la moneda local detectada
+    if loc:
+        # intentar inferir moneda por locale (ej. 'es_ES' -> 'EUR', 'en_US' -> 'USD')
+        # babel puede formatear con el código de moneda; si no conocemos el código, usar 'USD' como fallback
+        # intentamos con 'USD' y 'EUR' según locale prefix
+        currency_candidates = []
+        if loc.lower().startswith('es') or loc.lower().startswith('fr') or loc.lower().startswith('de'):
+            currency_candidates = ['EUR', 'USD']
+        elif loc.lower().startswith('en_us') or loc.lower().startswith('en'):
+            currency_candidates = ['USD', 'EUR']
+        else:
+            currency_candidates = ['USD', 'EUR']
+
+        for code in currency_candidates:
+            s = _try_babel_format(float(d_q), code, loc)
+            if s:
+                return s
+
+    # 3) fallback a locale.currency
+    try:
+        return _locale_currency_fallback(float(d_q))
+    except Exception:
+        return f"${float(d_q):,.2f}"
+tip_gui.py (actualizado para usar formateo local)
+python
+#!/usr/bin/env python3
+# tip_gui.py
+import sys
+from pathlib import Path
+import tkinter as tk
+from tkinter import ttk
+
+# Intentar importar desde src; si falla, añadir la raíz del proyecto al path
+try:
+    from src.tip_cli import calcular_propina, format_currency_local
+except Exception:
+    ROOT = Path(__file__).resolve().parents[1]
+    sys.path.insert(0, str(ROOT))
+    from src.tip_cli import calcular_propina, format_currency_local
+
+def actualizar(*_):
+    error_var.set("")
+    try:
+        bill = bill_var.get().strip()
+        pct = pct_var.get().strip()
+        people = people_var.get().strip()
+
+        tip, total, per_person = calcular_propina(bill or "0", pct or "10", people or "1")
+
+        tip_var.set(format_currency_local(tip))
+        total_var.set(format_currency_local(total))
+        per_var.set(format_currency_local(per_person))
+    except ValueError as ve:
+        tip_var.set("—")
+        total_var.set("—")
+        per_var.set("—")
+        error_var.set(str(ve))
+    except Exception as e:
+        tip_var.set("—")
+        total_var.set("—")
+        per_var.set("—")
+        error_var.set("Error inesperado: " + str(e))
+
+def reset():
+    bill_var.set("0.00")
+    pct_var.set("10")
+    people_var.set("1")
+    actualizar()
+
+root = tk.Tk()
+root.title("Calculadora de Propinas")
+
+frm = ttk.Frame(root, padding=16)
+frm.grid(sticky="nsew")
+
+ttk.Label(frm, text="Valor de la factura").grid(column=0, row=0, sticky="w")
+bill_var = tk.StringVar(value="0.00")
+bill_entry = ttk.Entry(frm, textvariable=bill_var, width=20)
+bill_entry.grid(column=0, row=1, pady=6, sticky="we")
+
+ttk.Label(frm, text="Porcentaje (%)").grid(column=0, row=2, sticky="w")
+pct_var = tk.StringVar(value="10")
+pct_entry = ttk.Entry(frm, textvariable=pct_var, width=20)
+pct_entry.grid(column=0, row=3, pady=6, sticky="we")
+
+ttk.Label(frm, text="Dividir entre (personas)").grid(column=0, row=4, sticky="w")
+people_var = tk.StringVar(value="1")
+people_entry = ttk.Entry(frm, textvariable=people_var, width=20)
+people_entry.grid(column=0, row=5, pady=6, sticky="we")
+
+btn_frame = ttk.Frame(frm)
+btn_frame.grid(column=0, row=6, pady=10, sticky="we")
+calc_btn = ttk.Button(btn_frame, text="Calcular", command=actualizar)
+calc_btn.pack(side="left", padx=(0, 8))
+reset_btn = ttk.Button(btn_frame, text="Limpiar", command=reset)
+reset_btn.pack(side="left")
+
+ttk.Separator(frm, orient="horizontal").grid(column=0, row=7, sticky="we", pady=8)
+
+tip_var = tk.StringVar(value="—")
+total_var = tk.StringVar(value="—")
+per_var = tk.StringVar(value="—")
+error_var = tk.StringVar(value="")
+
+ttk.Label(frm, text="Propina:").grid(column=0, row=8, sticky="w")
+ttk.Label(frm, textvariable=tip_var).grid(column=0, row=9, sticky="e")
+
+ttk.Label(frm, text="Total:").grid(column=0, row=10, sticky="w")
+ttk.Label(frm, textvariable=total_var).grid(column=0, row=11, sticky="e")
+
+ttk.Label(frm, text="Por persona:").grid(column=0, row=12, sticky="w")
+ttk.Label(frm, textvariable=per_var).grid(column=0, row=13, sticky="e")
+
+error_label = ttk.Label(frm, textvariable=error_var, foreground="red")
+error_label.grid(column=0, row=14, pady=(8, 0), sticky="we")
+
+for var in (bill_var, pct_var, people_var):
+    var.trace_add("write", actualizar)
+
+root.columnconfigure(0, weight=1)
+frm.columnconfigure(0, weight=1)
+bill_entry.focus()
+actualizar()
+
+if __name__ == "__main__":
+    root.mainloop()
+Notas prácticas y pruebas
+Dependencia opcional: si instalas Babel (pip install Babel) el formateo será más preciso por locale; si no, el código usa locale y un fallback seguro.
+
+Efecto en multihilo: locale.setlocale cambia el locale global del proceso; para aplicaciones simples de escritorio esto suele ser aceptable. Si necesitas evitar efectos globales, instala Babel y el formateo no tocará el estado global.
+
+Prueba rápida: ejecuta python tip_gui.py y cambia la configuración regional de tu sistema (o instala Babel) para ver cómo cambia el símbolo y el formato (por ejemplo € con separador decimal coma en es_ES, $ con punto decimal en en_US).
+
+Compatibilidad con tests: las funciones de cálculo siguen devolviendo float redondeados; solo cambia la presentación.
+
+¿Quieres que adapte el formateador para forzar siempre € o $ mediante una opción en la GUI (selector de moneda) además de la detección automática?
+
+no, agrea una opción de propina fija (monto específico)
+Cambios realizados (resumen)
+src/tip_cli.py: calcular_propina mantiene compatibilidad posicional y añade un parámetro opcional fixed_tip (monto fijo de propina). Si fixed_tip no es None, se usa ese importe en lugar del porcentaje. Redondeo humano con Decimal y validaciones intactas.
+
+tip_gui.py: añade un selector (radio buttons) Porcentaje / Monto fijo, campo para introducir el monto fijo y lógica para llamar a calcular_propina con fixed_tip cuando corresponda. La presentación sigue usando format_currency_local.
+
+src/tip_cli.py (versión actualizada)
+python
+# src/tip_cli.py
+from typing import Tuple, Optional
+from decimal import Decimal, ROUND_HALF_UP, InvalidOperation
+import locale
+
+def _to_decimal(value, name: str) -> Decimal:
+    try:
+        s = str(value).strip().replace(',', '.')
+        return Decimal(s)
+    except (InvalidOperation, ValueError, TypeError) as e:
+        raise ValueError(f"{name} no es un número válido") from e
+
+def calcular_propina(bill, porcentaje: float = 10.0, people: int = 1, fixed_tip: Optional[float] = None) -> Tuple[float, float, float]:
+    """
+    Calcula la propina, el total y el importe por persona.
+
+    Parámetros
+    - bill: importe de la factura (>= 0). Se aceptan números o strings con coma o punto.
+    - porcentaje: porcentaje de propina (>= 0). Se aceptan números o strings con coma o punto.
+    - people: número de personas (entero >= 1). Se aceptan enteros o strings que representen enteros.
+    - fixed_tip: si se proporciona (no None), se usa este monto fijo de propina en la misma moneda
+                 en lugar de calcularla por porcentaje. Se aceptan números o strings.
+
+    Devuelve (tip, total, per_person) como floats redondeados a 2 decimales.
+    Lanza ValueError con mensajes claros si alguna entrada es inválida.
+    """
+    bill_d = _to_decimal(bill, "Factura")
+    if bill_d < 0:
+        raise ValueError("La factura debe ser un número positivo o cero")
+
+    # Validar people como entero
+    try:
+        people_i = int(str(people))
+    except Exception as e:
+        raise ValueError("Número de personas debe ser un entero") from e
+    if people_i < 1:
+        raise ValueError("Número de personas debe ser >= 1")
+
+    # Si fixed_tip se proporciona, usarlo (validar)
+    if fixed_tip is not None:
+        fixed_d = _to_decimal(fixed_tip, "Propina fija")
+        if fixed_d < 0:
+            raise ValueError("La propina fija debe ser >= 0")
+        tip_d = fixed_d.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+    else:
+        pct_d = _to_decimal(porcentaje, "Porcentaje")
+        if pct_d < 0:
+            raise ValueError("El porcentaje debe ser >= 0")
+        tip_d = (bill_d * (pct_d / Decimal('100'))).quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+
+    total_d = (bill_d + tip_d).quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+    per_person_d = (total_d / Decimal(people_i)).quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+
+    return float(tip_d), float(total_d), float(per_person_d)
+
+# -------------------------
+# Formateo de moneda local
+# -------------------------
+def _try_babel_format(amount, currency_code, locale_str):
+    try:
+        from babel.numbers import format_currency
+    except Exception:
+        return None
+    try:
+        return format_currency(amount, currency_code, locale=locale_str)
+    except Exception:
+        return None
+
+def _locale_currency_fallback(amount):
+    try:
+        locale.setlocale(locale.LC_ALL, '')
+    except Exception:
+        pass
+    try:
+        return locale.currency(amount, symbol=True, grouping=True)
+    except Exception:
+        return f"${amount:,.2f}"
+
+def format_currency_local(amount) -> str:
+    try:
+        d = _to_decimal(amount, "Cantidad")
+    except ValueError as e:
+        raise ValueError("Cantidad no es un número válido") from e
+    d_q = d.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+
+    loc = None
+    try:
+        loc = locale.getdefaultlocale()[0]
+    except Exception:
+        loc = None
+
+    if loc:
+        currency_candidates = []
+        if loc.lower().startswith(('es', 'fr', 'de')):
+            currency_candidates = ['EUR', 'USD']
+        elif loc.lower().startswith('en_us') or loc.lower().startswith('en'):
+            currency_candidates = ['USD', 'EUR']
+        else:
+            currency_candidates = ['USD', 'EUR']
+
+        for code in currency_candidates:
+            s = _try_babel_format(float(d_q), code, loc)
+            if s:
+                return s
+
+    try:
+        return _locale_currency_fallback(float(d_q))
+    except Exception:
+        return f"${float(d_q):,.2f}"
+tip_gui.py (versión actualizada con opción de propina fija)
+python
+#!/usr/bin/env python3
+# tip_gui.py
+import sys
+from pathlib import Path
+import tkinter as tk
+from tkinter import ttk
+
+# Intentar importar desde src; si falla, añadir la raíz del proyecto al path
+try:
+    from src.tip_cli import calcular_propina, format_currency_local
+except Exception:
+    ROOT = Path(__file__).resolve().parents[1]
+    sys.path.insert(0, str(ROOT))
+    from src.tip_cli import calcular_propina, format_currency_local
+
+def actualizar(*_):
+    error_var.set("")
+    try:
+        bill = bill_var.get().strip() or "0"
+        mode = mode_var.get()  # 'pct' o 'fixed'
+        pct = pct_var.get().strip() or "10"
+        fixed = fixed_var.get().strip() or "0"
+        people = people_var.get().strip() or "1"
+
+        if mode == 'fixed':
+            # pasar fixed_tip como keyword argument
+            tip, total, per_person = calcular_propina(bill, porcentaje=10, people=people, fixed_tip=fixed)
+        else:
+            tip, total, per_person = calcular_propina(bill, porcentaje=pct, people=people)
+
+        tip_var.set(format_currency_local(tip))
+        total_var.set(format_currency_local(total))
+        per_var.set(format_currency_local(per_person))
+    except ValueError as ve:
+        tip_var.set("—")
+        total_var.set("—")
+        per_var.set("—")
+        error_var.set(str(ve))
+    except Exception as e:
+        tip_var.set("—")
+        total_var.set("—")
+        per_var.set("—")
+        error_var.set("Error inesperado: " + str(e))
+
+def reset():
+    bill_var.set("0.00")
+    pct_var.set("10")
+    fixed_var.set("0.00")
+    people_var.set("1")
+    mode_var.set('pct')
+    actualizar()
+
+root = tk.Tk()
+root.title("Calculadora de Propinas")
+
+frm = ttk.Frame(root, padding=16)
+frm.grid(sticky="nsew")
+
+# Factura
+ttk.Label(frm, text="Valor de la factura").grid(column=0, row=0, sticky="w")
+bill_var = tk.StringVar(value="0.00")
+bill_entry = ttk.Entry(frm, textvariable=bill_var, width=20)
+bill_entry.grid(column=0, row=1, pady=6, sticky="we")
+
+# Modo: porcentaje o fijo
+mode_var = tk.StringVar(value='pct')
+mode_frame = ttk.Frame(frm)
+mode_frame.grid(column=0, row=2, pady=(4, 8), sticky="we")
+ttk.Radiobutton(mode_frame, text="Porcentaje", variable=mode_var, value='pct', command=actualizar).pack(side="left", padx=(0,8))
+ttk.Radiobutton(mode_frame, text="Monto fijo", variable=mode_var, value='fixed', command=actualizar).pack(side="left")
+
+# Porcentaje
+ttk.Label(frm, text="Porcentaje (%)").grid(column=0, row=3, sticky="w")
+pct_var = tk.StringVar(value="10")
+pct_entry = ttk.Entry(frm, textvariable=pct_var, width=20)
+pct_entry.grid(column=0, row=4, pady=6, sticky="we")
+
+# Monto fijo
+ttk.Label(frm, text="Propina fija (monto)").grid(column=0, row=5, sticky="w")
+fixed_var = tk.StringVar(value="0.00")
+fixed_entry = ttk.Entry(frm, textvariable=fixed_var, width=20)
+fixed_entry.grid(column=0, row=6, pady=6, sticky="we")
+
+# Personas
+ttk.Label(frm, text="Dividir entre (personas)").grid(column=0, row=7, sticky="w")
+people_var = tk.StringVar(value="1")
+people_entry = ttk.Entry(frm, textvariable=people_var, width=20)
+people_entry.grid(column=0, row=8, pady=6, sticky="we")
+
+# Botones
+btn_frame = ttk.Frame(frm)
+btn_frame.grid(column=0, row=9, pady=10, sticky="we")
+calc_btn = ttk.Button(btn_frame, text="Calcular", command=actualizar)
+calc_btn.pack(side="left", padx=(0, 8))
+reset_btn = ttk.Button(btn_frame, text="Limpiar", command=reset)
+reset_btn.pack(side="left")
+
+ttk.Separator(frm, orient="horizontal").grid(column=0, row=10, sticky="we", pady=8)
+
+# Resultados
+tip_var = tk.StringVar(value="—")
+total_var = tk.StringVar(value="—")
+per_var = tk.StringVar(value="—")
+error_var = tk.StringVar(value="")
+
+ttk.Label(frm, text="Propina:").grid(column=0, row=11, sticky="w")
+ttk.Label(frm, textvariable=tip_var).grid(column=0, row=12, sticky="e")
+
+ttk.Label(frm, text="Total:").grid(column=0, row=13, sticky="w")
+ttk.Label(frm, textvariable=total_var).grid(column=0, row=14, sticky="e")
+
+ttk.Label(frm, text="Por persona:").grid(column=0, row=15, sticky="w")
+ttk.Label(frm, textvariable=per_var).grid(column=0, row=16, sticky="e")
+
+error_label = ttk.Label(frm, textvariable=error_var, foreground="red")
+error_label.grid(column=0, row=17, pady=(8, 0), sticky="we")
+
+# Actualizar en tiempo real al cambiar entradas
+for var in (bill_var, pct_var, fixed_var, people_var, mode_var):
+    var.trace_add("write", actualizar)
+
+root.columnconfigure(0, weight=1)
+frm.columnconfigure(0, weight=1)
+bill_entry.focus()
+actualizar()
+
+if __name__ == "__main__":
+    root.mainloop()
+Consideraciones y comportamiento
+Compatibilidad: calcular_propina sigue aceptando la llamada tradicional (bill, porcentaje, people); fixed_tip es opcional y no rompe tests existentes.
+
+Interfaz: cuando el usuario selecciona Monto fijo, el campo Propina fija se usa como importe absoluto (en la misma moneda detectada) y se ignora el porcentaje.
+
+Validaciones: la función central valida que la propina fija sea numérica y no negativa; la GUI muestra el mensaje de error devuelto por la función.
+
+Redondeo: todos los importes se calculan y redondean con Decimal y ROUND_HALF_UP antes de formatear.
+
+¿Quieres que añada una casilla para redondear el total final al entero más cercano (por ejemplo, pagar en billetes) y que muestre cuánto se redondeó?
+
+¿Qué información debe incluir un buen docstring?
+Qué debe contener un buen docstring
+Resumen breve — una línea que describa qué hace la función (verbo en presente).
+
+Descripción ampliada — si hace falta, uno o dos párrafos que expliquen el comportamiento, efectos secundarios y restricciones.
+
+Parámetros — nombre, tipo esperado y breve explicación de cada argumento; indicar valores por defecto y formatos aceptados.
+
+Valor devuelto — tipo y significado del valor retornado; estructura si devuelve tuplas o colecciones.
+
+Excepciones — qué errores puede lanzar y en qué condiciones.
+
+Ejemplos de uso — fragmentos mínimos que muestren llamadas típicas y resultados esperados.
+
+Notas adicionales — advertencias, complejidad algorítmica, referencias a especificaciones o a otras funciones relacionadas.
+
+Plantilla mínima y plantilla completa
+Mínima (una línea)
+
+python
+def sumar(a, b):
+    """Suma dos números y devuelve el resultado."""
+    return a + b
+Completa (estructura recomendada)
+
+python
+def dividir(numerador, denominador):
+    """
+    Divide numerador entre denominador y devuelve el cociente.
+
+    Parámetros
+    numerador (int | float) -- valor a dividir.
+    denominador (int | float) -- valor divisor; no puede ser 0.
+
+    Devuelve
+    float -- resultado de la división.
+
+    Excepciones
+    ValueError -- si denominador es 0.
+
+    Ejemplo
+    >>> dividir(10, 2)
+    5.0
+    """
+    if denominador == 0:
+        raise ValueError("denominador no puede ser 0")
+    return numerador / denominador
+Estilos comunes y cuándo elegirlos
+One-line docstring — para funciones triviales; debe ser una sola frase clara.
+
+PEP 257 / triple-quote — convención base de Python; buena para compatibilidad con herramientas.
+
+Google style — legible y compacto; popular en proyectos Google-like.
+
+NumPy style — ideal para funciones científicas con secciones de Parameters, Returns, Examples y tipos más detallados.
+
+Tradeoffs: Google y NumPy son más verbosos pero facilitan la generación automática de documentación; la one-line es concisa pero insuficiente para funciones no triviales.
+
+Buenas prácticas y recomendaciones concretas
+Empieza con un verbo en presente: Calcula, Devuelve, Abre.
+
+Sé explícito con tipos (acepta str con coma decimal, int >= 1, etc.).
+
+Documenta efectos secundarios (modifica archivo, hace I/O, cambia estado global).
+
+Incluye ejemplos ejecutables (doctest) si quieres que sean comprobables automáticamente.
+
+Mantén el docstring sincronizado con la firma: actualízalo cuando cambie la API.
+
+No repitas el nombre de la función en la primera línea (evita: "función foo hace...").
+
+Limita la longitud: la primera línea no debe exceder ~72 caracteres para que herramientas la muestren bien.
+
+Usa Raises o Excepciones para que los usuarios sepan qué capturar.
+
+Evita detalles de implementación que puedan cambiar; documenta la contrato y el comportamiento observable.
+
+Errores comunes a evitar
+Docstrings vacíos o inexistentes en funciones públicas.
+
+Documentar sólo tipos vagos como object o any sin contexto.
+
+Poner ejemplos que no funcionan (cambian API o dependen de estado externo).
+
+Dejar mensajes ambiguos en las secciones de errores (p. ej., “lanza Exception” sin especificar cuál).
+
+Herramientas y automatización útil
+Sphinx o pdoc para generar documentación HTML a partir de docstrings.
+
+doctest para ejecutar ejemplos incluidos en docstrings.
+
+Linters (p. ej., pylint, flake8 con plugins) para detectar docstrings faltantes o mal formateados.
+
+Plantillas de estilo (Google/NumPy) integradas en generadores de docs para consistencia.
+
+¿Quieres que convierta el docstring de una de tus funciones actuales al estilo Google o NumPy y te lo deje listo para usar en src/tip_cli.py?
+
+estilo numpy
+Docstring en estilo NumPy para calcular_propina
+python
+def calcular_propina(bill, porcentaje: float = 10.0, people: int = 1, fixed_tip: Optional[float] = None) -> Tuple[float, float, float]:
+    """
+    Calcula la propina, el total y el importe por persona usando redondeo humano.
+
+    Calcula la propina a partir de un importe de factura y un porcentaje, o bien
+    acepta una **propina fija** si se proporciona `fixed_tip`. Todos los cálculos
+    usan `decimal.Decimal` con `ROUND_HALF_UP` y los resultados se devuelven como
+    `float` redondeados a dos decimales.
+
+    Parameters
+    ----------
+    bill : int | float | str
+        Importe de la factura. Se aceptan números o cadenas con coma o punto
+        decimal (por ejemplo, `"12.34"` o `"12,34"`). Debe ser >= 0.
+    porcentaje : int | float | str, optional
+        Porcentaje de propina a aplicar (por defecto 10.0). Se aceptan números
+        o cadenas con coma/punto. Ignorado si `fixed_tip` no es `None`.
+    people : int | str, optional
+        Número de personas para dividir el total (por defecto 1). Debe ser un
+        entero >= 1; se aceptan cadenas que representen enteros válidos.
+    fixed_tip : int | float | str | None, optional
+        Monto absoluto de propina a usar en lugar del porcentaje. Si se
+        proporciona, debe ser >= 0. Se aceptan números o cadenas con coma/punto.
+
+    Returns
+    -------
+    tip : float
+        Importe de la propina, redondeado a 2 decimales.
+    total : float
+        Suma de la factura más la propina, redondeada a 2 decimales.
+    per_person : float
+        Importe por persona (total dividido entre `people`), redondeado a 2 decimales.
+
+    Raises
+    ------
+    ValueError
+        Si `bill`, `porcentaje` o `fixed_tip` no son numéricos válidos o son
+        negativos; si `people` no es un entero o es menor que 1.
+
+    Examples
+    --------
+    >>> calcular_propina(100, 15, 2)
+    (15.0, 115.0, 57.5)
+    >>> calcular_propina("100,00", "10", "4")
+    (10.0, 110.0, 27.5)
+    >>> calcular_propina(80, fixed_tip="5")
+    (5.0, 85.0, 85.0)
+
+    Notes
+    -----
+    - Internamente se usa `decimal.Decimal` y `ROUND_HALF_UP` para evitar
+      imprecisiones de punto flotante y aplicar el **redondeo humano**.
+    - La función devuelve `float` para mantener compatibilidad con llamadas
+      existentes; si se necesita precisión monetaria persistente, considere
+      trabajar con `Decimal` en la capa superior.
+    """
+Dónde pegarlo
+Sustituye o añade este bloque justo encima de la definición de calcular_propina en src/tip_cli.py. Mantén la firma de la función tal cual para conservar compatibilidad con las pruebas.
+
+¿Quieres que convierta también los docstrings de format_currency_local y _to_decimal al mismo estilo NumPy y te los deje listos para pegar?
+
+no, hazme un docstring de tip_gui.py
+Docstring para tip_gui.py
+python
+"""
+Interfaz gráfica para la calculadora de propinas.
+
+Proporciona una ventana Tkinter que permite introducir el importe de la factura,
+elegir entre aplicar un porcentaje o un monto fijo de propina, indicar el número
+de personas para dividir el total y ver los resultados formateados según la
+configuración regional del sistema.
+
+La GUI delega la lógica de cálculo y el formateo de moneda en las funciones
+exportadas por `src.tip_cli` (por ejemplo `calcular_propina` y `format_currency_local`).
+Captura y muestra errores de validación devueltos por dichas funciones.
+
+Parameters
+----------
+None
+    Este módulo define una aplicación de escritorio; no expone una API con
+    parámetros posicionales. Las entradas se leen desde widgets Tkinter:
+    - `bill_var` : StringVar con el importe de la factura.
+    - `pct_var` : StringVar con el porcentaje de propina.
+    - `fixed_var` : StringVar con el monto fijo de propina.
+    - `people_var` : StringVar con el número de personas.
+    - `mode_var` : StringVar que indica el modo ('pct' o 'fixed').
+
+Functions
+---------
+actualizar(*args)
+    Lee los valores de los widgets, llama a `calcular_propina` y actualiza las
+    variables de resultado (`tip_var`, `total_var`, `per_var`). Maneja
+    `ValueError` para mostrar mensajes de error al usuario.
+reset()
+    Restaura los valores por defecto en los campos de entrada y fuerza una
+    actualización de la vista.
+
+Returns
+-------
+None
+    Ejecutar el módulo como script arranca el bucle principal de Tkinter
+    (`root.mainloop()`), por lo que la función principal no devuelve valor.
+
+Raises
+------
+ValueError
+    Puede propagarse desde `calcular_propina` si las entradas no son válidas.
+Exception
+    Errores inesperados en la UI se capturan y se muestran como mensaje de error,
+    pero no se relanzan al usuario final.
+
+Examples
+--------
+Ejecutar la aplicación desde la raíz del proyecto:
+
+>>> python tip_gui.py
+
+Uso típico desde la interfaz:
+- Introducir "100" en Valor de la factura.
+- Seleccionar "Porcentaje" y dejar 10 en Porcentaje (%) → pulsar Calcular.
+- Ver "Propina", "Total" y "Por persona" formateados según la locale.
+
+Notes
+-----
+- La GUI intenta importar `calcular_propina` y `format_currency_local` desde
+  `src.tip_cli`. Si el import falla, añade la raíz del proyecto a `sys.path`
+  para facilitar el desarrollo local.
+- El formateo de moneda usa `babel` si está disponible; si no, recurre a
+  `locale` y a un fallback seguro.
+- Las entradas aceptan cadenas con coma decimal (por ejemplo "12,34") porque
+  la conversión y validación se realizan en `src.tip_cli`.
+- `locale.setlocale` puede cambiar el locale global del proceso; para evitar
+  efectos en aplicaciones multihilo, instale `Babel` y el formateo no tocará
+  el estado global.
+
+See Also
+--------
+src.tip_cli.calcular_propina : Lógica de cálculo y validación de entradas.
+src.tip_cli.format_currency_local : Formateo de importes según locale.
+
+Todo
+----
+- Añadir atajos de teclado (Enter = Calcular, Esc = Limpiar).
+- Añadir selector manual de moneda además de la detección automática.
+"""
+¿Quieres que añada los atajos de teclado (Enter para calcular, Esc para limpiar) en la implementación actual de la GUI?
+
+si
+Código actualizado de tip_gui.py (añade atajos Enter y Esc)
+python
+#!/usr/bin/env python3
+# tip_gui.py
+import sys
+from pathlib import Path
+import tkinter as tk
+from tkinter import ttk
+
+# Intentar importar desde src; si falla, añadir la raíz del proyecto al path
+try:
+    from src.tip_cli import calcular_propina, format_currency_local
+except Exception:
+    ROOT = Path(__file__).resolve().parents[1]
+    sys.path.insert(0, str(ROOT))
+    from src.tip_cli import calcular_propina, format_currency_local
+
+def actualizar(*_):
+    error_var.set("")
+    try:
+        bill = bill_var.get().strip() or "0"
+        mode = mode_var.get()  # 'pct' o 'fixed'
+        pct = pct_var.get().strip() or "10"
+        fixed = fixed_var.get().strip() or "0"
+        people = people_var.get().strip() or "1"
+
+        if mode == 'fixed':
+            tip, total, per_person = calcular_propina(bill, porcentaje=10, people=people, fixed_tip=fixed)
+        else:
+            tip, total, per_person = calcular_propina(bill, porcentaje=pct, people=people)
+
+        tip_var.set(format_currency_local(tip))
+        total_var.set(format_currency_local(total))
+        per_var.set(format_currency_local(per_person))
+    except ValueError as ve:
+        tip_var.set("—")
+        total_var.set("—")
+        per_var.set("—")
+        error_var.set(str(ve))
+    except Exception as e:
+        tip_var.set("—")
+        total_var.set("—")
+        per_var.set("—")
+        error_var.set("Error inesperado: " + str(e))
+
+def reset(*_):
+    bill_var.set("0.00")
+    pct_var.set("10")
+    fixed_var.set("0.00")
+    people_var.set("1")
+    mode_var.set('pct')
+    actualizar()
+
+root = tk.Tk()
+root.title("Calculadora de Propinas")
+
+frm = ttk.Frame(root, padding=16)
+frm.grid(sticky="nsew")
+
+# Factura
+ttk.Label(frm, text="Valor de la factura").grid(column=0, row=0, sticky="w")
+bill_var = tk.StringVar(value="0.00")
+bill_entry = ttk.Entry(frm, textvariable=bill_var, width=20)
+bill_entry.grid(column=0, row=1, pady=6, sticky="we")
+
+# Modo: porcentaje o fijo
+mode_var = tk.StringVar(value='pct')
+mode_frame = ttk.Frame(frm)
+mode_frame.grid(column=0, row=2, pady=(4, 8), sticky="we")
+ttk.Radiobutton(mode_frame, text="Porcentaje", variable=mode_var, value='pct', command=actualizar).pack(side="left", padx=(0,8))
+ttk.Radiobutton(mode_frame, text="Monto fijo", variable=mode_var, value='fixed', command=actualizar).pack(side="left")
+
+# Porcentaje
+ttk.Label(frm, text="Porcentaje (%)").grid(column=0, row=3, sticky="w")
+pct_var = tk.StringVar(value="10")
+pct_entry = ttk.Entry(frm, textvariable=pct_var, width=20)
+pct_entry.grid(column=0, row=4, pady=6, sticky="we")
+
+# Monto fijo
+ttk.Label(frm, text="Propina fija (monto)").grid(column=0, row=5, sticky="w")
+fixed_var = tk.StringVar(value="0.00")
+fixed_entry = ttk.Entry(frm, textvariable=fixed_var, width=20)
+fixed_entry.grid(column=0, row=6, pady=6, sticky="we")
+
+# Personas
+ttk.Label(frm, text="Dividir entre (personas)").grid(column=0, row=7, sticky="w")
+people_var = tk.StringVar(value="1")
+people_entry = ttk.Entry(frm, textvariable=people_var, width=20)
+people_entry.grid(column=0, row=8, pady=6, sticky="we")
+
+# Botones
+btn_frame = ttk.Frame(frm)
+btn_frame.grid(column=0, row=9, pady=10, sticky="we")
+calc_btn = ttk.Button(btn_frame, text="Calcular", command=actualizar)
+calc_btn.pack(side="left", padx=(0, 8))
+reset_btn = ttk.Button(btn_frame, text="Limpiar", command=reset)
+reset_btn.pack(side="left")
+
+ttk.Separator(frm, orient="horizontal").grid(column=0, row=10, sticky="we", pady=8)
+
+# Resultados
+tip_var = tk.StringVar(value="—")
+total_var = tk.StringVar(value="—")
+per_var = tk.StringVar(value="—")
+error_var = tk.StringVar(value="")
+
+ttk.Label(frm, text="Propina:").grid(column=0, row=11, sticky="w")
+ttk.Label(frm, textvariable=tip_var).grid(column=0, row=12, sticky="e")
+
+ttk.Label(frm, text="Total:").grid(column=0, row=13, sticky="w")
+ttk.Label(frm, textvariable=total_var).grid(column=0, row=14, sticky="e")
+
+ttk.Label(frm, text="Por persona:").grid(column=0, row=15, sticky="w")
+ttk.Label(frm, textvariable=per_var).grid(column=0, row=16, sticky="e")
+
+error_label = ttk.Label(frm, textvariable=error_var, foreground="red")
+error_label.grid(column=0, row=17, pady=(8, 0), sticky="we")
+
+# Actualizar en tiempo real al cambiar entradas
+for var in (bill_var, pct_var, fixed_var, people_var, mode_var):
+    var.trace_add("write", actualizar)
+
+# Atajos de teclado: Enter = Calcular, Esc = Limpiar
+# Se enlazan al root para que funcionen desde cualquier widget
+root.bind('<Return>', lambda event: actualizar())
+root.bind('<KP_Enter>', lambda event: actualizar())  # Enter del teclado numérico
+root.bind('<Escape>', lambda event: reset())
+
+# Ajustes de ventana y foco
+root.columnconfigure(0, weight=1)
+frm.columnconfigure(0, weight=1)
+bill_entry.focus()
+actualizar()
+
+if __name__ == "__main__":
+    root.mainloop()
+¿Quieres que añada también atajos con modificadores (por ejemplo Ctrl+Enter para calcular y Ctrl+L para limpiar) o que muestre una pequeña ayuda en la ventana con los atajos disponibles?
