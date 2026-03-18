@@ -36,7 +36,7 @@ sudo apt-get install python3-tk
 
 En el directorio raiz ejecutar:
 
-python src/tip_gui_v6.py
+python src/tip_gui_v7.py
 
 
 4. Funcionamiento del Programa
