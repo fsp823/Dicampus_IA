@@ -1,6 +1,11 @@
 import pytest
 import sys
 from pathlib import Path
+
+# Añadir la raíz del proyecto al path
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
 import main
 
 
@@ -29,7 +34,7 @@ def run_main(monkeypatch, args, stdin_data=""):
 # ---------------------------------------------------------
 # TEST 1: Analizar archivo real
 # ---------------------------------------------------------
-def test_main_analiza_archivo(monkeypatch: pytest.MonkeyPatch, tmp_path: Path):
+def test_main_analiza_archivo(monkeypatch, tmp_path):
     archivo = tmp_path / "ejemplo.txt"
     archivo.write_text("hola mundo hola", encoding="utf-8")
 
@@ -43,7 +48,7 @@ def test_main_analiza_archivo(monkeypatch: pytest.MonkeyPatch, tmp_path: Path):
 # ---------------------------------------------------------
 # TEST 2: Archivo inexistente
 # ---------------------------------------------------------
-def test_main_archivo_inexistente(monkeypatch: pytest.MonkeyPatch):
+def test_main_archivo_inexistente(monkeypatch):
     salida = run_main(monkeypatch, ["--archivo", "no_existe.txt"])
     assert "Error" in salida
 
@@ -51,7 +56,7 @@ def test_main_archivo_inexistente(monkeypatch: pytest.MonkeyPatch):
 # ---------------------------------------------------------
 # TEST 3: Leer desde stdin
 # ---------------------------------------------------------
-def test_main_stdin(monkeypatch: pytest.MonkeyPatch):
+def test_main_stdin(monkeypatch):
     texto = "python python hola"
     salida = run_main(monkeypatch, [], stdin_data=texto)
 
@@ -63,6 +68,25 @@ def test_main_stdin(monkeypatch: pytest.MonkeyPatch):
 # ---------------------------------------------------------
 # TEST 4: Sin archivo ni stdin
 # ---------------------------------------------------------
-def test_main_sin_entrada(monkeypatch: pytest.MonkeyPatch):
+def test_main_sin_entrada(monkeypatch):
     salida = run_main(monkeypatch, [])
     assert "No se proporcionó texto" in salida
+
+
+
+
+if __name__ == "__main__":
+    import pytest
+    from _pytest.config import Config
+    from _pytest.main import Session
+
+    print("\nEjecutando tests...\n")
+
+    # Ejecutar pytest y capturar estadísticas
+    resultado = pytest.main(["--maxfail=1", "-q"])
+
+    # Mostrar mensaje final
+    if resultado == 0:
+        print("\n✅ Todos los tests pasaron correctamente")
+    else:
+        print(f"\n❌ Algunos tests fallaron (código de salida: {resultado})")
