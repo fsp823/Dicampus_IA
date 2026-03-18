@@ -1,0 +1,9 @@
+Hola Mundo. Hola Python. Python es genial.
+
+Crear el archivo textos/ejemplo.txt con un texto de prueba de varias líneas
+● Crear función que cargue y lea un archivo .txt dado su ruta
+● Aplicar todas las funciones de análisis ya creadas al texto del archivo
+● Manejar errores: archivo no encontrado, archivo vacío, ruta incorrecta
+Preguntas para la IA:
+● «¿Cómo leo un archivo .txt en Python con open() y manejo el error FileNotFoundError?»
+● «¿Cómo le pido al usuario la ruta de un archivo y compruebo que existe con os.path.exists()?»
